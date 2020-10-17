@@ -1,5 +1,6 @@
 # Fiuba-Big-Data-Analytics-TPs
 
+#Integrantes: 
 
 Leandro Van Kemenade 102826
 
@@ -9,7 +10,7 @@ Elvis, Claros Castro  99879
 
 L'Enfan, Luis Fernndo  73993
 
-Agreguen sus nombres 
+
 
 # Informe Overleaf
 
