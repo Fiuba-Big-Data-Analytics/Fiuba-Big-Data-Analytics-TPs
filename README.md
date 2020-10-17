@@ -1,5 +1,7 @@
 # Fiuba-Big-Data-Analytics-TPs
 
+[Enunciado](https://docs.google.com/document/d/1Ws7kfBmQmZ3BuUA7rGCnvhRGdl6MZYpC2c2GEvx7a2Y/edit)
+
 # Calendario
 
 ## 1ra Entrega
@@ -29,7 +31,7 @@ L'Enfan, Luis Fernndo  73993
 
 # Informe Overleaf
 
-https://www.overleaf.com/2362158822csftdgdxfgsq
+[Informe](https://www.overleaf.com/2362158822csftdgdxfgsq)
 
 # Variables Leo
 
