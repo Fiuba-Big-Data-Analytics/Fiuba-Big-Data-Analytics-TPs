@@ -1,6 +1,6 @@
 # Fiuba-Big-Data-Analytics-TPs
 
-#Integrantes: 
+# Integrantes: 
 
 Leandro Van Kemenade 102826
 
@@ -13,3 +13,19 @@ L'Enfan, Luis Fernndo  73993
 # Informe Overleaf
 
 https://www.overleaf.com/2362158822csftdgdxfgsq
+
+# Variables Leo
+
+//Variables que reservas
+
+# Variables Santi
+
+...
+
+# Variables Elvis
+
+...
+
+# Variables Luis
+
+...
