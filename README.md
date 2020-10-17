@@ -10,8 +10,6 @@ Elvis, Claros Castro  99879
 
 L'Enfan, Luis Fernndo  73993
 
-
-
 # Informe Overleaf
 
 https://www.overleaf.com/2362158822csftdgdxfgsq
