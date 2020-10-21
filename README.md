@@ -34,6 +34,7 @@ L'Enfan, Luis Fernndo  73993
 [Informe](https://www.overleaf.com/2362158822csftdgdxfgsq)
 
 # Variables Leo
+Regions: Cantidad de Stages de cada tipo por cada region
 
 //Variables que reservas
 
