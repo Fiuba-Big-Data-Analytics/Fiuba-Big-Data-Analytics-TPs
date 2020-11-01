@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import filter
-from format import *
+from print import *
 
 original = pd.read_csv("file.csv")
 
