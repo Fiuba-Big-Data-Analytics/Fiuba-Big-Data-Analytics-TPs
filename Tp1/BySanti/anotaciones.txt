@@ -1,0 +1,2 @@
+Total_Amount_Currency no es decimal, es categórico
+Total_Taxable_Amount no es categórico, es decimal

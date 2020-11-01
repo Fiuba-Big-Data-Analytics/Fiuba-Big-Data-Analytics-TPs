@@ -28,6 +28,6 @@ for col in original:
 
 print(original["Sales_Contract_No"].isnull().value_counts())
 filter.full_correction(original)
+print(original["Delivery_Year"].head(90))
 print(original.dtypes)
-print(original.shape[0])
 
