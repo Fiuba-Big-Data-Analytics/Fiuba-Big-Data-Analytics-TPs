@@ -2,7 +2,7 @@ import pandas as pd
 
 def full_correction(df):
     date_correction(df)
-    int_correction(df)
+    numeric_correction(df)
     name_correction(df)
 
 def date_correction(df):
@@ -16,7 +16,7 @@ def date_correction(df):
     _month_correction(df)
     _actual_delivery_date_correction(df)
 
-def int_correction(df):
+def numeric_correction(df):
     _sales_contract_no_correction(df)
     _price_correction(df)
 
