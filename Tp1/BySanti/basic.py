@@ -13,20 +13,25 @@ filas = len(original.index)
 columnas = len(original.columns)
 
 def basic_analysis(df):
-
-    basic_stats(df)
-    null_stats(df)
+    #basic_stats(df)
+    #null_stats(df)
     #var_stats(df)
     #value_counts_stats(df)
+    return
 
 def basic_stats(df):
+    set_output("basic_stats.txt")
+
     print_title("Estadística Básica")
 
     printt(f"Cantidad de datos: {original.size}")
     printt(f"Cantidad de filas: {original.shape[0]}")
     printt(f"Cantidad de columnas: {original.shape[1]}")
 
+    reset_output()
+
 def null_stats(df):
+    set_output("null_stats.txt")
     print_title("Completitud del Set")
 
     for col in original:
@@ -38,7 +43,10 @@ def null_stats(df):
         
         printt(f"{col}: {pretty_f(porcentaje, 3)}% - {nulos}/{filas}")
 
+    reset_output()
+
 def var_stats(df):
+    set_output("var_stats.txt")
     print_title("Estadísitca de las Variables")
 
     types = df.dtypes
@@ -48,13 +56,20 @@ def var_stats(df):
 
         print_subtitle(col)
         print_series(df[col].describe())
-        print()
+        div()
+
+    reset_output()
 
 def value_counts_stats(df):
+    set_output("value_counts.txt")
+    print_title("Value Counts por Variable")
+
     for col in df:
         print_subtitle(col)
-        print(df[col].value_counts())
-        print()
+        printf(df[col].value_counts())
+        div()
+
+    reset_output()
 
 basic_analysis(original)
 
