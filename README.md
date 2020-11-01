@@ -41,6 +41,7 @@ Regions: Cantidad de Stages de cada tipo por cada region
 # Variables Santi
 
 - Estadística MUY general del DataFrame
+- Month
 
 # Variables Elvis
 
