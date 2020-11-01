@@ -10,9 +10,11 @@ class __color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
+""" Prints a pretty title"""
 def print_title(title):
    print(f"\n{__color.UNDERLINE}{__color.BOLD}{title}{__color.END}\n")
 
+""" Prints a pretty subtitle"""
 def print_subtitle(subtitle):
    print(f"{subtitle}\n")
 
@@ -27,3 +29,8 @@ def printt(string):
 def pretty_f(f, d=2): 
 	float_format = f"%.{d}f"
 	return float_format % f
+
+""" Prints a series. Uses a tab if tab is True."""
+def print_series(series, tab=True):
+   if (tab): printt(series.to_string().replace("\n", "\n\t"))
+   else: print(series.to_string())
