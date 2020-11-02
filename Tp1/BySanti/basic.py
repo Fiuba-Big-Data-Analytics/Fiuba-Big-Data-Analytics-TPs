@@ -72,4 +72,3 @@ def value_counts_stats(df):
     reset_output()
 
 basic_analysis(original)
-

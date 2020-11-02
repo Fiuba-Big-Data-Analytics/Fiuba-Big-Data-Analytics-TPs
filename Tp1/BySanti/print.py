@@ -47,21 +47,21 @@ def print_subtitle(subtitle):
    else: print(f"{subtitle}\n")
 
 """ Prints the string without a tab"""
-def printf(string):
+def printf(text):
    if Printer.output_file != sys.stdout:
       with open(Printer.output_file, Printer.mode) as my_file:
-         my_file.write(f"{string}\n")
+         my_file.write(f"{text}\n")
    else: 
-      print(f"{string}")
+      print(f"{text}")
 
 """ Prints the string with a tab """
-def printt(string):
-   string = string.replace("\n", "\n\t")
+def printt(text):
+   text = text.replace("\n", "\n\t")
    if Printer.output_file != sys.stdout:
       with open(Printer.output_file, Printer.mode) as my_file:
-	      my_file.write(f"\t{string}\n")
+	      my_file.write(f"\t{text}\n")
    else:
-      print(f"\t{string}")
+      print(f"\t{text}")
 
 """ Prints a blank line"""
 def newline():
