@@ -35,7 +35,9 @@ L'Enfan, Luis Fernndo  73993
 
 # Variables Leo
 Regions: Cantidad de Stages de cada tipo por cada region
+
 Territorios con mas oportunidades
+
 Oportunidades segun los años
 
 //Variables que reservas
