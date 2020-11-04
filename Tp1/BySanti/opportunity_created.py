@@ -8,70 +8,84 @@ import filter
 from print import *
 import graph_counter
 
-original = pd.read_csv("file.csv")
 
-filter.full_correction(original)
+def set_up_stats(df):
+    df["Opportunity_Created_Year"] = df["Opportunity_Created_Date"].apply(
+        lambda x: x.year)
+    df["Opportunity_Created_Month"] = df["Opportunity_Created_Date"].apply(
+        lambda x: x.month)
+    df["Opportunity_Created_Day"] = df["Opportunity_Created_Date"].apply(
+        lambda x: x.day)
 
-filas = len(original.index)
-columnas = len(original.columns)
-
-creation = original
-
-creation["Opportunity_Created_Year"] = creation["Opportunity_Created_Date"].apply(
-    lambda x: x.year)
-creation["Opportunity_Created_Month"] = creation["Opportunity_Created_Date"].apply(
-    lambda x: x.month)
-creation["Opportunity_Created_Day"] = creation["Opportunity_Created_Date"].apply(
-    lambda x: x.day)
-
-# sns.displot(creation["Opportunity_Created_Month"])
-
-won = creation.loc[creation["Stage"] == "Closed Won", :]
-creation["Opportunity_Created_Year_Won"] = won["Opportunity_Created_Date"].apply(
-    lambda x: x.year)
-creation["Opportunity_Created_Month_Won"] = won["Opportunity_Created_Date"].apply(
-    lambda x: x.month)
-creation["Opportunity_Created_Day_Won"] = won["Opportunity_Created_Date"].apply(
-    lambda x: x.day)
-
-# creation = creation.merge(won, left_on="ID", right_on="ID", how="left")
-# print(creation["Opportunity_Created_Year"].value_counts())
-# print(creation["Opportunity_Created_Year_Won"].value_counts())
-
-# won["Won_Per_Month"] = won.groupby("Opportunity_Created_Month")["Stage"].transform("count")
-
-# closed = creation.loc[(creation["Stage"] == "Closed Won") | (creation["Stage"] == "Closed Lost"), :]
-# closed["Closed_Per_Month"] = closed.groupby("Opportunity_Created_Month")["Stage"].transform("count")
-
-# won["Won_Per_Month_Normalized"] = won["Won_Per_Month"] / closed["Closed_Per_Month"]
-# won["Won_Per_Month_Normalized"].plot(kind="hist")
-# won_per_month_normalized = won.groupby("Opportunity_Created_Month")["Won_Per_Month_Normalized"]
-# plt.show()
-# print(won_per_month_normalized)
-# plt.figure(4)
-# plt.hist()
-# plt.show()
-# won_per_month_normalized.plot(y=)
-
-# won_normalized = won["Won_Per_Month"].divide(closed["Closed_Per_Month"])
-# print(won_normalized.value_counts().to_string())
-
-# print(creation.groupby("Opportunity_Created_Month")["Stage"].value_counts(normalize=True).reset_index())
-
-# creation = creation.loc[(creation["Stage"] == "Closed Won") | (creation["Stage"] == "Closed Lost"), :]
-# creation = creation.groupby("Opportunity_Created_Month")["Stage"].value_counts(normalize=True)
-# print(creation)
+    aux = df.loc[df["Stage"] == "Closed Won", :]
+    df["Opportunity_Created_Year_Won"] = aux["Opportunity_Created_Date"].apply(
+        lambda x: x.year)
+    df["Opportunity_Created_Month_Won"] = aux["Opportunity_Created_Date"].apply(
+        lambda x: x.month)
+    df["Opportunity_Created_Day_Won"] = aux["Opportunity_Created_Date"].apply(
+        lambda x: x.day)
 
 
-def opportunity_created(df):
-    counter = graph_counter.Counter()
+def opportunity_created(counter):
+    original = pd.read_csv("file.csv")
+    filter.full_correction(original)
 
-    opportunity_year(df, counter)
-    opportunity_month(df, counter)
-    opportunity_day(df, counter)
-    opportunity_year_won(df, counter)
-    opportunity_month_won(df, counter)
-    opportunity_day_won(df, counter)
+    # filas = len(original.index)
+    # columnas = len(original.columns)
+
+    set_up_stats(original)
+
+    set_output("opportunity_stats.txt")
+    opportunity_stats(original)
+
+    counter.increase_count()
+    opportunity_year(original, counter)
+    opportunity_month(original, counter)
+    opportunity_day(original, counter)
+    opportunity_year_won(original, counter)
+    opportunity_month_won(original, counter)
+    opportunity_day_won(original, counter)
+    reset_output()
+
+
+def opportunity_stats(df):
+    pd.options.mode.chained_assignment = None
+
+    won = df.loc[df["Stage"] == "Closed Won", :]
+    won["Won_Per_Month"] = won.groupby("Opportunity_Created_Month")[
+        "Stage"].transform("count")
+
+    closed = df.loc[(df["Stage"] == "Closed Won") |
+                    (df["Stage"] == "Closed Lost"), :]
+    closed["Closed_Per_Month"] = closed.groupby("Opportunity_Created_Month")[
+        "Stage"].transform("count")
+
+    won["Won_Per_Month_Normalized"] = won["Won_Per_Month"].divide(
+        closed["Closed_Per_Month"])
+    won["Won_Per_Month_Normalized"].plot(kind="hist")
+    won_per_month_normalized = won.groupby("Opportunity_Created_Month")[
+        "Won_Per_Month_Normalized"]
+
+    print_title("Estadísticas de la Fecha de Creación de las Oportunidades")
+
+    print_subtitle("Oportunidades según el Día")
+    printt(df["Opportunity_Created_Day"].value_counts().to_string())
+    newline()
+
+    print_subtitle("Oportunidades según el Mes")
+    printt(df["Opportunity_Created_Month"].value_counts().to_string())
+    newline()
+
+    print_subtitle("Oportunidades según el Año")
+    printt(df["Opportunity_Created_Year"].value_counts().to_string())
+    newline()
+
+    div()
+
+    print_subtitle("Éxito según el Mes de Creación")
+    printt(won_per_month_normalized.value_counts().to_string())
+
+    pd.options.mode.chained_assignment = "warn"
 
 
 def opportunity_year(df, counter):
@@ -203,4 +217,5 @@ def opportunity_day_won(df, counter):
     counter.increase_count()
 
 
-opportunity_created(creation)
+counter = graph_counter.Counter()
+opportunity_created(counter)
