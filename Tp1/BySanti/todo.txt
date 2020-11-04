@@ -3,6 +3,7 @@ Hacer gráficos encimados de Month
 Hacer gráficos encimados de Planned_Delivery_Start_Date por mes
 Estudiar el porcentaje de exito de Last_Modified_By
 Estudiar el porcnetaje de exito del mes
+Calcular total de won/lost
 
 Basico
 
