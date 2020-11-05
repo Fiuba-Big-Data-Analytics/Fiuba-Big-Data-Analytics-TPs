@@ -38,7 +38,6 @@ def opportunity_created(counter):
     set_output("opportunity_stats.txt")
     opportunity_stats(original)
 
-    counter.increase_count()
     opportunity_year(original, counter)
     opportunity_month(original, counter)
     opportunity_day(original, counter)
@@ -62,28 +61,56 @@ def opportunity_stats(df):
 
     won["Won_Per_Month_Normalized"] = won["Won_Per_Month"].divide(
         closed["Closed_Per_Month"])
-    won["Won_Per_Month_Normalized"].plot(kind="hist")
     won_per_month_normalized = won.groupby("Opportunity_Created_Month")[
         "Won_Per_Month_Normalized"]
 
+    ###############
+
+    won["Won_Per_Year"] = won.groupby("Opportunity_Created_Year")[
+        "Stage"].transform("count")
+
+    closed["Closed_Per_Year"] = closed.groupby("Opportunity_Created_Year")[
+        "Stage"].transform("count")
+
+    won["Won_Per_Year_Normalized"] = won["Won_Per_Year"].divide(
+        closed["Closed_Per_Year"])
+    won_per_year_normalized = won.groupby("Opportunity_Created_Year")[
+        "Won_Per_Year_Normalized"]
+
+    ################
+
     print_title("Estadísticas de la Fecha de Creación de las Oportunidades")
+
+    print_subtitle("Fechas Mínima y Máxima")
+    min_date = df["Opportunity_Created_Date"].min()
+    max_date = df["Opportunity_Created_Date"].max()
+    printf(min_date)
+    printf(max_date)
+
+    div()
 
     print_subtitle("Oportunidades según el Día")
     printt(df["Opportunity_Created_Day"].value_counts().to_string())
+
     newline()
 
     print_subtitle("Oportunidades según el Mes")
     printt(df["Opportunity_Created_Month"].value_counts().to_string())
+
     newline()
 
     print_subtitle("Oportunidades según el Año")
     printt(df["Opportunity_Created_Year"].value_counts().to_string())
-    newline()
 
     div()
 
     print_subtitle("Éxito según el Mes de Creación")
     printt(won_per_month_normalized.value_counts().to_string())
+
+    newline()
+
+    print_subtitle("Éxito según el Año de Creación")
+    printt(won_per_year_normalized.value_counts().to_string())
 
     pd.options.mode.chained_assignment = "warn"
 
@@ -93,7 +120,7 @@ def opportunity_year(df, counter):
     bins = np.arange(2012, 2012 + values + 1) + 0.5
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Year"], bins, ec="black")
+    plt.hist(df["Opportunity_Created_Year"], bins, ec="black", color="blue")
 
     plt.title("Oportunidades por Año")
     plt.xlabel("Año")
@@ -131,7 +158,7 @@ def opportunity_month(df, counter):
     bins = np.arange(values + 1) + 0.5
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Month"], bins, ec="black")
+    plt.hist(df["Opportunity_Created_Month"], bins, ec="black", color="blue")
     plt.title("Oportunidades por Mes")
     plt.xlabel("Mes")
     plt.ylabel("Frecuencia")
@@ -153,7 +180,7 @@ def opportunity_month_won(df, counter):
         color="green", label="Oportunidades Ganadas")
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Month"], bins, ec="black")
+    plt.hist(df["Opportunity_Created_Month"], bins, ec="black", color="blue")
     plt.hist(df["Opportunity_Created_Month_Won"],
              bins, ec="black", color="green")
 
@@ -176,13 +203,13 @@ def opportunity_day(df, counter):
     bins = np.arange(values + 1) + 0.5
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Day"], bins, ec="black")
+    plt.hist(df["Opportunity_Created_Day"], bins, ec="black", color="blue")
 
     plt.title("Oportunidades por Día")
     plt.xlabel("Día")
     plt.ylabel("Frecuencia")
 
-    plt.xticks([x for x in range(1, values+1)])
+    plt.xticks([x for x in range(1, values+1)], rotation="vertical")
     plt.xlim(0, values+1)
 
     plt.savefig("graphics/days_hist.png")
@@ -199,7 +226,7 @@ def opportunity_day_won(df, counter):
         color="green", label="Oportunidades Ganadas")
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Day"], bins, ec="black")
+    plt.hist(df["Opportunity_Created_Day"], bins, ec="black", color="blue")
     plt.hist(df["Opportunity_Created_Day_Won"],
              bins, ec="black", color="green")
 
@@ -207,7 +234,7 @@ def opportunity_day_won(df, counter):
     plt.xlabel("Día")
     plt.ylabel("Frecuencia")
 
-    plt.xticks([x for x in range(1, values+1)])
+    plt.xticks([x for x in range(1, values+1)], rotation="vertical")
     plt.xlim(0, values+1)
 
     plt.legend(handles=[patch_blue, patch_green])
