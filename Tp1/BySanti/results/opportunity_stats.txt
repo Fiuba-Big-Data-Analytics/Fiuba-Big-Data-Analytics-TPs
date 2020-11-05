@@ -2,6 +2,13 @@
 Estadísticas de la Fecha de Creación de las Oportunidades
 ================================================================================
 
+Fechas Mínima y Máxima
+
+2013-11-05 00:00:00
+2018-12-29 00:00:00
+
+================================================================================
+
 Oportunidades según el Día
 
 	9     763
@@ -36,7 +43,7 @@ Oportunidades según el Día
 	25    404
 	31    333
 
-Oportunidades según el Month
+Oportunidades según el Mes
 
 	5     1596
 	10    1580
@@ -60,7 +67,6 @@ Oportunidades según el Año
 	2014      40
 	2013       1
 
-
 ================================================================================
 
 Éxito según el Mes de Creación
@@ -78,3 +84,12 @@ Oportunidades según el Año
 	10                         0.612245                    960
 	11                         0.604371                    802
 	12                         0.470508                    694
+
+Éxito según el Año de Creación
+
+	Opportunity_Created_Year  Won_Per_Year_Normalized
+	2014                      0.425000                     17
+	2015                      0.272727                    276
+	2016                      0.481745                   2098
+	2017                      0.631358                   4369
+	2018                      0.608782                   2773
