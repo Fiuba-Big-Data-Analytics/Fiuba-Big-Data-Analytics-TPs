@@ -4,6 +4,10 @@ Estudiar el porcentaje de exito de Last_Modified_By
 Estudiar el porcnetaje de exito del mes
 Calcular total de won/lost
 
+restar la columna opportunity_Create_date
+ con cuando se consuma el resultado,
+  para conocer duracion de las negociaciones
+
 Basico
 
 1- Size
