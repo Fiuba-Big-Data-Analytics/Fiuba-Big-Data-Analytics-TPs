@@ -12,6 +12,7 @@ import graph_counter
 def product_type(counter):
     original = pd.read_csv("file.csv")
     filter.full_correction(original)
+    original = original.drop_duplicates(subset="Opportunity_Name")
 
     set_output("product_type_stats.txt")
     product_type_stats(original)

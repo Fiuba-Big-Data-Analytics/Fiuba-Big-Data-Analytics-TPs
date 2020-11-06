@@ -13,6 +13,8 @@ def product_family(counter):
     original = pd.read_csv("file.csv")
     filter.full_correction(original)
 
+    #original = original.drop_duplicates(subset="Opportunity_Name")
+
     set_up_stats(original)
 
     set_output("product_family_stats.txt")

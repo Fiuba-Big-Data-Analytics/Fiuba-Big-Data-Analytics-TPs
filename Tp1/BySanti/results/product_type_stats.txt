@@ -4,21 +4,21 @@ Estadística del Tipo de Producto
 
 Cantidad de cada Tipo de Producto
 
-	3.0    179
-	1.0    142
-	0.0     94
-	4.0     73
-	2.0      9
+	3.0    121
+	1.0    104
+	0.0     66
+	4.0     43
+	2.0      8
 
 ================================================================================
 
 Casos Cerrados según Tipo de Producto
 
-	3.0    179
-	1.0    142
-	0.0     94
-	4.0     73
-	2.0      9
+	3.0    121
+	1.0    104
+	0.0     66
+	4.0     43
+	2.0      8
 
 Casos Ganados según Tipo de Producto
 
@@ -27,8 +27,8 @@ Casos Ganados según Tipo de Producto
 Etapa según Tipo de Producto
 
 Stage        Product_Type
-Closed Lost  3.0             179
-             1.0             142
-             0.0              94
-             4.0              73
-             2.0               9
+Closed Lost  3.0             121
+             1.0             104
+             0.0              66
+             4.0              43
+             2.0               8

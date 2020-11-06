@@ -1,0 +1,32 @@
+================================================================================
+Estadística de los ID de las Oportunidades
+================================================================================
+
+Cantidad de ID distintos
+
+	9841
+
+Cantidad Promedio de Registros por ID
+
+	1.722081089320191
+
+ID Mínimo
+
+	0
+
+ID Máximo
+
+	12803
+
+Nombre Mínimo
+
+	0
+
+Nombre Máximo
+
+	12975
+
+Cantidad Máxima de Registros Para Oportunidad
+
+	36
+

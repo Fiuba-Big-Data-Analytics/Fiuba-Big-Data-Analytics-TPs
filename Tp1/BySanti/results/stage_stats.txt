@@ -1,0 +1,24 @@
+================================================================================
+Estadísticas de Stage
+================================================================================
+
+Cantidad de cada Valor
+
+	Closed Won       5072
+	Closed Lost      4719
+	Proposal           30
+	Negotiation        11
+	Qualification       9
+
+Cantidad Relativa de cada Valor
+
+	Closed Won       0.515395
+	Closed Lost      0.479524
+	Proposal         0.003048
+	Negotiation      0.001118
+	Qualification    0.000915
+
+Porcentaje de Éxito
+
+	Closed Won     0.518027
+	Closed Lost    0.481973

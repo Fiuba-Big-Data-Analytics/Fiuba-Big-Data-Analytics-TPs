@@ -12,12 +12,14 @@ filter.full_correction(original)
 filas = len(original.index)
 columnas = len(original.columns)
 
+
 def basic_analysis(df):
-    #basic_stats(df)
-    #null_stats(df)
-    #var_stats(df)
-    #value_counts_stats(df)
+    # basic_stats(df)
+    # null_stats(df)
+    # var_stats(df)
+    # value_counts_stats(df)
     return
+
 
 def basic_stats(df):
     set_output("basic_stats.txt")
@@ -30,20 +32,23 @@ def basic_stats(df):
 
     reset_output()
 
+
 def null_stats(df):
     set_output("null_stats.txt")
     print_title("Completitud del Set")
 
     for col in original:
         cant = original[col].isnull().value_counts().tolist()
-        if cant[0] == filas: continue
+        if cant[0] == filas:
+            continue
 
         nulos = cant[1]
-        porcentaje = cant[1] /filas
-        
+        porcentaje = cant[1] / filas
+
         printt(f"{col}: {pretty_f(porcentaje, 3)}% - {nulos}/{filas}")
 
     reset_output()
+
 
 def var_stats(df):
     set_output("var_stats.txt")
@@ -52,13 +57,15 @@ def var_stats(df):
     types = df.dtypes
 
     for col in df:
-        if types[col] not in {np.dtype('float64'), np.dtype('int64')}: continue
+        if types[col] not in {np.dtype('float64'), np.dtype('int64')}:
+            continue
 
         print_subtitle(col)
         print_series(df[col].describe())
         div()
 
     reset_output()
+
 
 def value_counts_stats(df):
     set_output("value_counts.txt")
@@ -70,5 +77,6 @@ def value_counts_stats(df):
         div()
 
     reset_output()
+
 
 basic_analysis(original)

@@ -30,12 +30,11 @@ def opportunity_created(counter):
     original = pd.read_csv("file.csv")
     filter.full_correction(original)
 
-    # filas = len(original.index)
-    # columnas = len(original.columns)
+    original = original.drop_duplicates(subset="Opportunity_Name")
 
     set_up_stats(original)
 
-    set_output("opportunity_stats.txt")
+    set_output("opportunity_created_stats.txt")
     opportunity_stats(original)
 
     opportunity_year(original, counter)
