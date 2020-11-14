@@ -107,9 +107,9 @@ def product_family_won(df, counter):
     values = len(df["Product_Family"].value_counts())
     bins = np.arange(values + 1) + 0.5
     patch_blue = mpatches.Patch(
-        color="#3333ff", label="Oportunidades en Total")
+        color="#ff9999", label="Oportunidades en Total")
     patch_green = mpatches.Patch(
-        color="#00bb00", label="Oportunidades Ganadas")
+        color="#99ff99", label="Oportunidades Ganadas")
 
     plt.figure(counter.get_count())
     #plt.hist(df["Product_Family"], bins, ec="black", color="blue")
@@ -118,14 +118,14 @@ def product_family_won(df, counter):
     #         bins, ec="black", color="green")
 
     plt.bar(df["Product_Family"].value_counts().index, df["Product_Family"].value_counts(),
-            width=0.7, align="center", color="#3333ff")
+            width=0.7, align="center", color="#ff9999")
     # plt.bar(df["Product_Family_Won"].value_counts().index, df["Product_Family_Won"].value_counts(),
     #        width=0.7, align="center")
 
     df = df.loc[df["Stage"] == "Closed Won", :]
 
     plt.bar(df["Product_Family"].value_counts().index,
-            df["Product_Family_Won"].value_counts(), width=0.7, align="center", color="#00bb00")
+            df["Product_Family_Won"].value_counts(), width=0.7, align="center", color="#99ff99")
 
     plt.title("Oportunidades por Familia de Producto Ganadas")
     plt.xlabel("Familia Producto")

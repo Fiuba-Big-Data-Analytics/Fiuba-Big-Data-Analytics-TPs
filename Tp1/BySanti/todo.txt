@@ -6,7 +6,8 @@ Calcular total de won/lost
 
 restar la columna opportunity_Create_date
  con cuando se consuma el resultado,
-  para conocer duracion de las negociaciones
+ para conocer duracion de las negociaciones
+
 
 Basico
 
