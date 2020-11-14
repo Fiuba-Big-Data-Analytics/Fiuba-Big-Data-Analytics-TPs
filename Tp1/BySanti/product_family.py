@@ -71,7 +71,7 @@ def product_family_stats(df):
     won_per_family_normalized = won.groupby("Product_Family")[
         "Won_Per_Family_Normalized"]
 
-    stage = df.groupby("Stage")["Product_Family"].value_counts().to_string()
+    #stage = df.groupby("Stage")["Product_Family"].value_counts().to_string()
 
     print_subtitle("Datos Incluidos")
 
@@ -104,8 +104,8 @@ def product_family_won(df, counter):
 
     df = df.loc[df["Product_Family_Count"] > percentile90, :]
 
-    values = len(df["Product_Family"].value_counts())
-    bins = np.arange(values + 1) + 0.5
+    #values = len(df["Product_Family"].value_counts())
+    #bins = np.arange(values + 1) + 0.5
     patch_blue = mpatches.Patch(
         color="#ff9999", label="Oportunidades en Total")
     patch_green = mpatches.Patch(
