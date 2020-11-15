@@ -1,0 +1,183 @@
+================================================================================
+Comparación con Columna Total Amount
+================================================================================
+
+Suma de Precios de Productos Igual a Total
+
+	True     8985
+	False     758
+
+================================================================================
+Estadística Básica de Total Taxable Amount por Moneda
+================================================================================
+
+================================================================================
+EUR
+================================================================================
+
+Medidas Estadísticas de las Oportunidades
+
+	Cantidad de Datos: 3129
+	Cantidad de Valores Únicos: 2509
+	Promedio de los Valores: 1069505.80
+	Valor Mínimo: 0.0
+	Valor Máximo: 216240000.0
+	Desviación Estándar: 4896210.58
+	Mediana: 169650.0
+
+Medidas Estadísticas de las Oportunidades Ganadas
+
+	Cantidad de Datos: 1472
+	Cantidad de Valores Únicos: 1157
+	Promedio de los Valores: 317616.70
+	Valor Mínimo: 0.0
+	Valor Máximo: 19874400.0
+	Desviación Estándar: 1088047.26
+	Mediana: 91350.0
+
+Medidas Estadísticas de las Oportunidades Perdidas
+
+	Cantidad de Datos: 1657
+	Cantidad de Valores Únicos: 1505
+	Promedio de los Valores: 1737448.33
+	Valor Mínimo: 0.0
+	Valor Máximo: 216240000.0
+	Desviación Estándar: 6578873.08
+	Mediana: 310800.0
+
+================================================================================
+USD
+================================================================================
+
+Medidas Estadísticas de las Oportunidades
+
+	Cantidad de Datos: 4720
+	Cantidad de Valores Únicos: 3421
+	Promedio de los Valores: 2196539.13
+	Valor Mínimo: 0.0
+	Valor Máximo: 315000081.9
+	Desviación Estándar: 10874861.04
+	Mediana: 109456.2
+
+Medidas Estadísticas de las Oportunidades Ganadas
+
+	Cantidad de Datos: 2210
+	Cantidad de Valores Únicos: 1705
+	Promedio de los Valores: 488977.39
+	Valor Mínimo: 0.0
+	Valor Máximo: 177627662.7
+	Desviación Estándar: 4307851.20
+	Mediana: 78515.25
+
+Medidas Estadísticas de las Oportunidades Perdidas
+
+	Cantidad de Datos: 2510
+	Cantidad de Valores Únicos: 1847
+	Promedio de los Valores: 3700009.83
+	Valor Mínimo: 0.0
+	Valor Máximo: 315000081.9
+	Desviación Estándar: 14186735.25
+	Mediana: 261532.0
+
+================================================================================
+JPY
+================================================================================
+
+Medidas Estadísticas de las Oportunidades
+
+	Cantidad de Datos: 1579
+	Cantidad de Valores Únicos: 1214
+	Promedio de los Valores: 9632535.48
+	Valor Mínimo: 0.0
+	Valor Máximo: 1356338620.0
+	Desviación Estándar: 50712110.43
+	Mediana: 1040600.0
+
+Medidas Estadísticas de las Oportunidades Ganadas
+
+	Cantidad de Datos: 1121
+	Cantidad de Valores Únicos: 891
+	Promedio de los Valores: 6937428.58
+	Valor Mínimo: 1050.0
+	Valor Máximo: 1356338620.0
+	Desviación Estándar: 42724714.96
+	Mediana: 948480.0
+
+Medidas Estadísticas de las Oportunidades Perdidas
+
+	Cantidad de Datos: 458
+	Cantidad de Valores Únicos: 363
+	Promedio de los Valores: 16229074.41
+	Valor Mínimo: 0.0
+	Valor Máximo: 919992410.0
+	Desviación Estándar: 65916360.92
+	Mediana: 1181800.0
+
+================================================================================
+AUD
+================================================================================
+
+Medidas Estadísticas de las Oportunidades
+
+	Cantidad de Datos: 314
+	Cantidad de Valores Únicos: 100
+	Promedio de los Valores: 331702.17
+	Valor Mínimo: 0.0
+	Valor Máximo: 8250033.0
+	Desviación Estándar: 690342.02
+	Mediana: 109620.0
+
+Medidas Estadísticas de las Oportunidades Ganadas
+
+	Cantidad de Datos: 268
+	Cantidad de Valores Únicos: 68
+	Promedio de los Valores: 205849.49
+	Valor Mínimo: 0.0
+	Valor Máximo: 3440056.9
+	Desviación Estándar: 353206.01
+	Mediana: 109620.0
+
+Medidas Estadísticas de las Oportunidades Perdidas
+
+	Cantidad de Datos: 46
+	Cantidad de Valores Únicos: 37
+	Promedio de los Valores: 1064930.82
+	Valor Mínimo: 61050.0
+	Valor Máximo: 8250033.0
+	Desviación Estándar: 1389500.97
+	Mediana: 732235.0
+
+================================================================================
+GBP
+================================================================================
+
+Medidas Estadísticas de las Oportunidades
+
+	Cantidad de Datos: 1
+	Cantidad de Valores Únicos: 1
+	Promedio de los Valores: 7274250.00
+	Valor Mínimo: 7274250.0
+	Valor Máximo: 7274250.0
+	Desviación Estándar: nan
+	Mediana: 7274250.0
+
+Medidas Estadísticas de las Oportunidades Ganadas
+
+	Cantidad de Datos: 0
+	Cantidad de Valores Únicos: 1
+	Promedio de los Valores: nan
+	Valor Mínimo: nan
+	Valor Máximo: nan
+	Desviación Estándar: nan
+	Mediana: nan
+
+Medidas Estadísticas de las Oportunidades Perdidas
+
+	Cantidad de Datos: 1
+	Cantidad de Valores Únicos: 1
+	Promedio de los Valores: 7274250.00
+	Valor Mínimo: 7274250.0
+	Valor Máximo: 7274250.0
+	Desviación Estándar: nan
+	Mediana: 7274250.0
+

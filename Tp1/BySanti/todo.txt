@@ -8,6 +8,7 @@ restar la columna opportunity_Create_date
  con cuando se consuma el resultado,
  para conocer duracion de las negociaciones
 
+ Mostrar la correlación 1 a 1 entre nombre de producto y taxable_amont  
 
 Basico
 

@@ -131,7 +131,7 @@ def product_name_won(df, counter):
 
     plt.xticks(rotation=90, size=7.5)
 
-    plt.legend(handles=[patch_red, patch_green])
+    plt.legend(handles=[patch_red, patch_green], prop={"size": 4})
 
     plt.savefig("graphics/product_name_hist.png")
 
