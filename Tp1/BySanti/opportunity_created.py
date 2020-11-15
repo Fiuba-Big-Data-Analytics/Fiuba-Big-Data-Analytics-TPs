@@ -119,7 +119,7 @@ def opportunity_year(df, counter):
     bins = np.arange(2012, 2012 + values + 1) + 0.5
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Year"], bins, ec="black", color="blue")
+    plt.hist(df["Opportunity_Created_Year"], bins, ec="black", color="#66b3ff")
 
     plt.title("Oportunidades por Año")
     plt.xlabel("Año")
@@ -133,19 +133,20 @@ def opportunity_year(df, counter):
 def opportunity_year_won(df, counter):
     values = len(df["Opportunity_Created_Year"].value_counts())
     bins = np.arange(2012, 2012 + values + 1) + 0.5
-    patch_blue = mpatches.Patch(color="blue", label="Oportunidades en Total")
-    patch_green = mpatches.Patch(color="green", label="Oportunidades Ganadas")
+    patch_red = mpatches.Patch(color="#ff9999", label="Oportunidades en Total")
+    patch_green = mpatches.Patch(
+        color="#99ff99", label="Oportunidades Ganadas")
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Year"], bins, ec="black", color="blue")
+    plt.hist(df["Opportunity_Created_Year"], bins, ec="black", color="#ff9999")
     plt.hist(df["Opportunity_Created_Year_Won"],
-             bins, ec="black", color="green")
+             bins, ec="black", color="#99ff99")
 
     plt.title("Oportunidades por Año Ganadas")
     plt.xlabel("Año")
     plt.ylabel("Frecuencia")
 
-    plt.legend(handles=[patch_blue, patch_green])
+    plt.legend(handles=[patch_red, patch_green])
 
     plt.savefig("graphics/year_won_hist.png")
 
@@ -157,7 +158,8 @@ def opportunity_month(df, counter):
     bins = np.arange(values + 1) + 0.5
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Month"], bins, ec="black", color="blue")
+    plt.hist(df["Opportunity_Created_Month"],
+             bins, ec="black", color="#66b3ff")
     plt.title("Oportunidades por Mes")
     plt.xlabel("Mes")
     plt.ylabel("Frecuencia")
@@ -174,14 +176,15 @@ def opportunity_month_won(df, counter):
     values = len(df["Opportunity_Created_Month"].value_counts())
     bins = np.arange(values + 1) + 0.5
 
-    patch_blue = mpatches.Patch(color="blue", label="Oportunidades en Total")
+    patch_red = mpatches.Patch(color="#ff9999", label="Oportunidades en Total")
     patch_green = mpatches.Patch(
-        color="green", label="Oportunidades Ganadas")
+        color="#99ff99", label="Oportunidades Ganadas")
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Month"], bins, ec="black", color="blue")
+    plt.hist(df["Opportunity_Created_Month"],
+             bins, ec="black", color="#ff9999")
     plt.hist(df["Opportunity_Created_Month_Won"],
-             bins, ec="black", color="green")
+             bins, ec="black", color="#99ff99")
 
     plt.title("Oportunidades por Mes")
     plt.xlabel("Mes")
@@ -190,7 +193,7 @@ def opportunity_month_won(df, counter):
     plt.xticks([x for x in range(1, values+1)])
     plt.xlim(0, values+1)
 
-    plt.legend(handles=[patch_blue, patch_green])
+    plt.legend(handles=[patch_red, patch_green])
 
     plt.savefig("graphics/months_won_hist.png")
 
@@ -202,7 +205,7 @@ def opportunity_day(df, counter):
     bins = np.arange(values + 1) + 0.5
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Day"], bins, ec="black", color="blue")
+    plt.hist(df["Opportunity_Created_Day"], bins, ec="black", color="#66b3ff")
 
     plt.title("Oportunidades por Día")
     plt.xlabel("Día")
@@ -220,14 +223,14 @@ def opportunity_day_won(df, counter):
     values = len(df["Opportunity_Created_Day"].value_counts())
     bins = np.arange(values + 1) + 0.5
 
-    patch_blue = mpatches.Patch(color="blue", label="Oportunidades en Total")
+    patch_red = mpatches.Patch(color="#ff9999", label="Oportunidades en Total")
     patch_green = mpatches.Patch(
-        color="green", label="Oportunidades Ganadas")
+        color="#99ff99", label="Oportunidades Ganadas")
 
     plt.figure(counter.get_count())
-    plt.hist(df["Opportunity_Created_Day"], bins, ec="black", color="blue")
+    plt.hist(df["Opportunity_Created_Day"], bins, ec="black", color="#ff9999")
     plt.hist(df["Opportunity_Created_Day_Won"],
-             bins, ec="black", color="green")
+             bins, ec="black", color="#99ff99")
 
     plt.title("Oportunidades por Día")
     plt.xlabel("Día")
@@ -236,7 +239,7 @@ def opportunity_day_won(df, counter):
     plt.xticks([x for x in range(1, values+1)], rotation="vertical")
     plt.xlim(0, values+1)
 
-    plt.legend(handles=[patch_blue, patch_green])
+    plt.legend(handles=[patch_red, patch_green])
 
     plt.savefig("graphics/days_won_hist.png")
 

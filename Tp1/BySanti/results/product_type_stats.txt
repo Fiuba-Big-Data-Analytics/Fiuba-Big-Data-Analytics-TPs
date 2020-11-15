@@ -1,24 +1,34 @@
+Cantidad de Registros con Product Type
+
+	1012
+
+Cantidad de Oportunidades con Product Type
+
+	654
+
 ================================================================================
 Estadística del Tipo de Producto
 ================================================================================
 
 Cantidad de cada Tipo de Producto
 
-	3.0    121
-	1.0    104
-	0.0     66
-	4.0     43
-	2.0      8
+	-1.0    312
+	 3.0    121
+	 1.0    104
+	 0.0     66
+	 4.0     43
+	 2.0      8
 
 ================================================================================
 
 Casos Cerrados según Tipo de Producto
 
-	3.0    121
-	1.0    104
-	0.0     66
-	4.0     43
-	2.0      8
+	-1.0    312
+	 3.0    121
+	 1.0    104
+	 0.0     66
+	 4.0     43
+	 2.0      8
 
 Casos Ganados según Tipo de Producto
 
@@ -27,8 +37,9 @@ Casos Ganados según Tipo de Producto
 Etapa según Tipo de Producto
 
 Stage        Product_Type
-Closed Lost  3.0             121
-             1.0             104
-             0.0              66
-             4.0              43
-             2.0               8
+Closed Lost  -1.0            312
+              3.0            121
+              1.0            104
+              0.0             66
+              4.0             43
+              2.0              8

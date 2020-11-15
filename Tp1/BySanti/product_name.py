@@ -104,10 +104,10 @@ def product_name_won(df, counter):
 
     values = len(df["Product_Name"].value_counts())
     bins = np.arange(values + 1) + 0.5
-    patch_blue = mpatches.Patch(
-        color="#3333ff", label="Oportunidades en Total")
+    patch_red = mpatches.Patch(
+        color="#ff9999", label="Oportunidades en Total")
     patch_green = mpatches.Patch(
-        color="#00bb00", label="Oportunidades Ganadas")
+        color="#99ff99", label="Oportunidades Ganadas")
 
     plt.figure(counter.get_count())
     #plt.hist(df["Product_Name"], bins, ec="black", color="blue")
@@ -116,14 +116,14 @@ def product_name_won(df, counter):
     #         bins, ec="black", color="green")
 
     plt.bar(df["Product_Name"].value_counts().index, df["Product_Name"].value_counts(),
-            width=0.7, align="center", color="#3333ff")
+            width=0.7, align="center", color="#ff9999")
     # plt.bar(df["Product_Name_Won"].value_counts().index, df["Product_Name_Won"].value_counts(),
     #        width=0.7, align="center")
 
     df = df.loc[df["Stage"] == "Closed Won", :]
 
     plt.bar(df["Product_Name"].value_counts().index,
-            df["Product_Name_Won"].value_counts(), width=0.7, align="center", color="#00bb00")
+            df["Product_Name_Won"].value_counts(), width=0.7, align="center", color="#99ff99")
 
     plt.title("Oportunidades por Nombre de Producto Ganadas")
     plt.xlabel("Nombre Producto")
@@ -131,7 +131,7 @@ def product_name_won(df, counter):
 
     plt.xticks(rotation=90, size=7.5)
 
-    plt.legend(handles=[patch_blue, patch_green])
+    plt.legend(handles=[patch_red, patch_green])
 
     plt.savefig("graphics/product_name_hist.png")
 

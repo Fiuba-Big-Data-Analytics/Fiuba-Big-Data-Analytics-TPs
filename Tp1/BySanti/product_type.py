@@ -12,13 +12,31 @@ import graph_counter
 def product_type(counter):
     original = pd.read_csv("file.csv")
     filter.full_correction(original)
+    set_output("product_type_stats.txt")
+
+    product_type_basic_registers(original)
+
     original = original.drop_duplicates(subset="Opportunity_Name")
 
-    set_output("product_type_stats.txt")
+    product_type_basic_opportunities(original)
     product_type_stats(original)
 
     reset_output()
     return
+
+
+def product_type_basic_registers(df):
+    print_subtitle("Cantidad de Registros con Product Type")
+    cant_oport = df["Product_Type"].count()
+    printt(f"{cant_oport}")
+    newline()
+
+
+def product_type_basic_opportunities(df):
+    print_subtitle("Cantidad de Oportunidades con Product Type")
+    cant_oport = df["Product_Type"].count()
+    printt(f"{cant_oport}")
+    newline()
 
 
 def product_type_stats(df):
