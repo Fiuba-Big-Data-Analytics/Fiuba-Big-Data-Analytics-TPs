@@ -26,6 +26,7 @@ def total_taxable_amount(counter):
     tot_sum_compare(original)
     tot_tax_basic_stats(original)
     tot_tax_success(original, counter)
+    tot_cur_success(original, counter)
     benford(original, counter)
 
     reset_output()
@@ -148,6 +149,33 @@ def tot_tax_success(df, counter):
     plt.savefig("graphics/total_taxable_amount.png")
 
     # For some reason it is not needed
+    counter.increase_count()
+
+
+def tot_cur_success(df, counter):
+    # GBP no quiero grafico
+    df = df.loc[df["Total_Taxable_Amount_Currency"] != "GBP", :]
+    for currency in df["Total_Taxable_Amount_Currency"].unique():
+        cut_df = df.loc[df["Total_Taxable_Amount_Currency"] == currency, :]
+        _tot_cur_success(cut_df, counter, currency)
+
+
+def _tot_cur_success(df, counter, currency):
+    plt.figure(counter.get_count())
+    plt.pie(df["Stage"].value_counts(normalize=True),
+            labels=df["Stage"].value_counts().index,
+            colors=["#99ff99", "#ff9999"],
+            autopct='%2.2f%%',
+            pctdistance=0.80,
+            startangle=60,
+            explode=[0.01, 0.01])
+
+    plt.title(f"Oportunidades Ganadas vs Perdidas ({currency})")
+
+    centre_circle = plt.Circle((0, 0), 0.70, fc='white')
+    plt.gcf().gca().add_artist(centre_circle)
+
+    plt.savefig(f"graphics/stage_{currency}.png")
     counter.increase_count()
 
 

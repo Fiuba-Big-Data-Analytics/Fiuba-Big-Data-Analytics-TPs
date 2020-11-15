@@ -9,6 +9,7 @@ restar la columna opportunity_Create_date
  para conocer duracion de las negociaciones
 
  Mostrar la correlación 1 a 1 entre nombre de producto y taxable_amont  
+ Hacer pie chart para currency exito
 
 Basico
 
