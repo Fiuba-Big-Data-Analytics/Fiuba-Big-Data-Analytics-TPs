@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import math
 import numpy as np
 import seaborn as sns
 
@@ -146,11 +147,41 @@ def tot_tax_success(df, counter):
     plt.tight_layout()
     plt.savefig("graphics/total_taxable_amount.png")
 
+    # For some reason it is not needed
     counter.increase_count()
 
 
 def benford(df, counter):
-    pass
+    digits = np.array([n for n in range(1, 10)])
+    benford_values = np.array([(1 + 1/n) for n in range(1, 10)])
+    benford_values = np.log(benford_values) / np.log(10)
+
+    bins = np.arange(10) + 0.5
+    patch_orange = mpatches.Patch(color="#ffcc99", label="Ley de Benford")
+    patch_blue = mpatches.Patch(
+        color="#66b3ff", label="Precio Total")
+
+    df = df.loc[df["Total_Taxable_Amount"] != 0, :]
+    df["TXA_First_Digit"] = df["Total_Taxable_Amount"].apply(
+        lambda n: int(str(int(n))[:1]))
+
+    plt.figure(counter.get_count(), facecolor="white")
+    plt.title("Ley de Benford vs Precio Total", pad=15, size=15)
+
+    plt.plot(digits, benford_values, color="#ffcc99")
+    plt.hist(df["TXA_First_Digit"], bins, color="#66b3ff", density=True)
+
+    plt.xticks(digits)
+    plt.xlabel("Primer Dígito")
+    plt.ylabel("Frecuencia Relativa")
+
+    plt.legend(handles=[patch_blue, patch_orange])
+
+    plt.grid(b=None)
+
+    plt.tight_layout()
+    plt.savefig("graphics/benford.png")
+    counter.increase_count()
 
 
 counter = graph_counter.Counter()
