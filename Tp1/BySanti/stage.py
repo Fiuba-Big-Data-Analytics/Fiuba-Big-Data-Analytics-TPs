@@ -62,8 +62,7 @@ def stage_graph(df, counter):
     plt.gcf().gca().add_artist(centre_circle)
 
     plt.savefig("graphics/stage.png")
-
-    return
+    counter.increase_count()
 
 
 counter = graph_counter.Counter()
