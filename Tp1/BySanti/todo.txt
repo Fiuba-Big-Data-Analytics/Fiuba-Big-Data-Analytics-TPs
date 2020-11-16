@@ -10,6 +10,9 @@ restar la columna opportunity_Create_date
 
  Mostrar la correlación 1 a 1 entre nombre de producto y taxable_amont  
  Hacer pie chart para currency exito
+ Sales contract NO = Opportunity_ID
+Convertir todas las imagenes a PDF
+Mencionar todas las columnas sin info
 
 Basico
 

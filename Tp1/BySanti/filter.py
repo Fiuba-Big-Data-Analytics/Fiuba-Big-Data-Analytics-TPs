@@ -48,6 +48,8 @@ def name_correction(df):
 def delete_correction(df):
     _last_activity_delete(df)
     _actual_delivery_date_delete(df)
+    _submitted_for_approval(df)
+    _product_category_a(df)
 
 # DATE SECTION
 
@@ -158,6 +160,14 @@ def _last_activity_delete(df):
 
 def _actual_delivery_date_delete(df):
     df.drop(columns="Actual_Delivery_Date", inplace=True)
+
+
+def _submitted_for_approval(df):
+    df.drop(columns="Submitted_for_Approval", inplace=True)
+
+
+def _product_category_a(df):
+    df.drop(columns="Prod_Category_A", inplace=True)
 
 # TO NUMERIC SECTION
 

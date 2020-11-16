@@ -2,6 +2,6 @@
 Estadística Básica
 ================================================================================
 
-	Cantidad de datos: 847350
+	Cantidad de datos: 813456
 	Cantidad de filas: 16947
-	Cantidad de columnas: 50
+	Cantidad de columnas: 48

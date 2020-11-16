@@ -5,19 +5,16 @@ import numpy as np
 import filter
 from print import *
 
-original = pd.read_csv("file.csv")
-
-filter.full_correction(original)
-
-filas = len(original.index)
-columnas = len(original.columns)
-
 
 def basic_analysis(df):
-    # basic_stats(df)
-    # null_stats(df)
-    # var_stats(df)
-    # value_counts_stats(df)
+    original = pd.read_csv("file.csv")
+
+    filter.full_correction(original)
+
+    basic_stats(df)
+    null_stats(df)
+    var_stats(df)
+    value_counts_stats(df)
     return
 
 
@@ -26,19 +23,22 @@ def basic_stats(df):
 
     print_title("Estadística Básica")
 
-    printt(f"Cantidad de datos: {original.size}")
-    printt(f"Cantidad de filas: {original.shape[0]}")
-    printt(f"Cantidad de columnas: {original.shape[1]}")
+    printt(f"Cantidad de datos: {df.size}")
+    printt(f"Cantidad de filas: {df.shape[0]}")
+    printt(f"Cantidad de columnas: {df.shape[1]}")
 
     reset_output()
 
 
 def null_stats(df):
+    filas = len(df.index)
+    columnas = len(df.columns)
+
     set_output("null_stats.txt")
     print_title("Completitud del Set")
 
-    for col in original:
-        cant = original[col].isnull().value_counts().tolist()
+    for col in df:
+        cant = df[col].isnull().value_counts().tolist()
         if cant[0] == filas:
             continue
 
@@ -77,6 +77,3 @@ def value_counts_stats(df):
         div()
 
     reset_output()
-
-
-basic_analysis(original)
