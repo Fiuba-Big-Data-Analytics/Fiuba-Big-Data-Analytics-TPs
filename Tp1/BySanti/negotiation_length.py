@@ -99,7 +99,7 @@ def negotiation_length_won(df, counter):
     ls = q3 + 1.5 * ric
     df = df.loc[df["Negotiation_Length"] > li, :]
     df = df.loc[df["Negotiation_Length"] < ls, :]
-    max_value = df["Negotiation_Length"].max()
+    # max_value = df["Negotiation_Length"].max() used for xlim
 
     patch_red = mpatches.Patch(color="#ff9999", label="Oportunidades en Total")
     patch_green = mpatches.Patch(
@@ -107,17 +107,17 @@ def negotiation_length_won(df, counter):
 
     plt.figure(counter.get_count())
     sns.set_style("whitegrid")
-    sns.histplot(df["Negotiation_Length"], binwidth=10,
-                 color="#ff9999", kde=True, line_kws={"alpha": 1}, alpha=1)
+    sns.histplot(df["Negotiation_Length"], binwidth=15,
+                 color="#ff9999", ec="black", kde=True, line_kws={"alpha": 1}, alpha=1)
     sns.histplot(df["Negotiation_Length_Won"],
-                 binwidth=10, color="#99ff99", kde=True, line_kws={"alpha": 1}, alpha=1)
+                 binwidth=15, color="#99ff99", ec="black", kde=True, line_kws={"alpha": 1}, alpha=1)
 
     plt.title("Oportunidades Ganadas según Duración de la Negociación ")
     plt.xlabel("Duración de la Negociación")
     plt.ylabel("Frecuencia")
 
     plt.legend(handles=[patch_red, patch_green])
-    plt.xlim(0, 610)
+    plt.xlim(-0.7, 616)
 
     plt.savefig("graphics/negotiation_length.png")
 

@@ -1,0 +1,32 @@
+================================================================================
+Estadística del Tipo de Producto
+================================================================================
+
+Rango de Identificadores
+
+	0 - 66
+
+Cantidad de Vendedores Totales
+
+	53
+
+Cantidad de Vendedores Máximo en un Mes
+
+	47
+
+Cantidad de Oportunidades Máxima por un Vendedor
+
+	958
+
+Cantidad de Oportunidades Máxima por un Vendedor en un Mes
+
+	128
+
+Cantidad de Oportunidades Exitosas Máxima por un Vendedor
+
+	595
+
+Cantidad de Oportunidades Exitosas Máxima por un Vendedor en un Mes
+
+	74
+

@@ -1,0 +1,35 @@
+================================================================================
+Estadística de Toneladas de Refrigeración
+================================================================================
+
+Valores Únicos
+
+	101
+
+Medidas Estadísticas
+
+	Promedio & 2.34
+	Mínimo & 0
+	Máximo & 500
+	Desviación Estándar & 12.17
+	Mediana & 0.0
+
+Medidas Estadísticas de las Oportunidades Ganadas
+
+	Promedio de los Valores & 0.32
+	Valor Mínimo & 0.0
+	Valor Máximo & 42.0
+	Desviación Estándar & 1.54
+	Mediana & 0.0
+
+Medidas Estadísticas de las Oportunidades Perdidas
+
+	Promedio de los Valores & 4.95 
+	Valor Mínimo & 0.0
+	Valor Máximo & 500.0
+	Desviación Estándar & 18.05
+	Mediana & 0.0
+
+Percentil 25 Superior
+
+	Datos: 16655
