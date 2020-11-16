@@ -1,0 +1,31 @@
+================================================================================
+Estadística General de la Duración
+================================================================================
+
+Medidas Estadísticas Generales
+
+	Cantidad de Datos & 9791
+	Promedio de los Valores & 187.88
+	Valor Mínimo & 0
+	Valor Máximo & 1775
+	Desviación Estándar & 153.92
+	Mediana & 170.0
+
+Medidas Estadísticas de las Oportunidades Ganadas
+
+	Cantidad de Datos & 5072
+	Promedio de los Valores & 161.88
+	Valor Mínimo & 0.0
+	Valor Máximo & 1059.0
+	Desviación Estándar & 138.15
+	Mediana & 146.0
+
+Medidas Estadísticas de las Oportunidades Perdidas
+
+	Cantidad de Datos & 4719
+	Promedio de los Valores & 215.82 
+	Valor Mínimo & 0.0
+	Valor Máximo & 1775.0
+	Desviación Estándar & 164.74
+	Mediana & 195.0
+
