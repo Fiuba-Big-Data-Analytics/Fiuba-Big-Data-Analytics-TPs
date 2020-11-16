@@ -39,7 +39,7 @@ def opportunity_owner_top5(df, counter):
 
     plt.title('Países con más Oportunidades', pad=10)
     plt.ylabel("País")
-    plt.xlabel("Frecuencia")
+    plt.xlabel("Oportunidades")
     plt.xticks(rotation=0)
     plt.xlim(0, 3000)
     plt.tight_layout()
