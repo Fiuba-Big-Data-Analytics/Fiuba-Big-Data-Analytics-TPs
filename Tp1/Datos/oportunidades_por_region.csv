@@ -2,12 +2,10 @@ Source,Dest,Value
 requieren_aprobacion,aprobado,55.04
 requieren_aprobacion,no_aprobado,21.32
 no_requieren_aprobacion,aprobado,23.65
-aprobado,Closed Won ,36.84
-aprobado,Closed Lost ,39.01
-no_aprobado,Closed Lost ,8.94
-no_aprobado,Closed Won ,14.70
-Closed Won,Japan,15.24
-Closed Won,EMEA,13.11
+aprobado,Closed Won ,31.16
+aprobado,Closed Lost ,23.55
+Closed Won,Japan,13.11
+Closed Won,EMEA,15.24
 Closed Won,APAC,11.74
 Closed Won,Americas,11.12
 Closed Won,Middle East,0.36
