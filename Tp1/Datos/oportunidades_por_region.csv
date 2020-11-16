@@ -1,18 +1,18 @@
 Source,Dest,Value
-requieren_aprobacion,aprobado,57.36
-requieren_aprobacion,no_aprobado,22.44
-no_requieren_aprobacion,aprobado,19.20
-aprobado,Closed Won ,43.75
-aprobado,Closed Lost ,36.67
-no_aprobado,Closed Lost ,6.70
-no_aprobado,Closed Won ,12.50
-Closed Won,Japan,19.61
-Closed Won,EMEA,14.58
-Closed Won,APAC,11.19
-Closed Won,Americas,10.58
-Closed Won,Middle East,0.30
-Closed Lost,Japan,12.92
-Closed Lost,EMEA,12.63
-Closed Lost,APAC,9.12
-Closed Lost,Americas,8.00
-Closed Lost,Middle East,0.71
+requieren_aprobacion,aprobado,55.04
+requieren_aprobacion,no_aprobado,21.32
+no_requieren_aprobacion,aprobado,23.65
+aprobado,Closed Won ,36.84
+aprobado,Closed Lost ,39.01
+no_aprobado,Closed Lost ,8.94
+no_aprobado,Closed Won ,14.70
+Closed Won,Japan,15.24
+Closed Won,EMEA,13.11
+Closed Won,APAC,11.74
+Closed Won,Americas,11.12
+Closed Won,Middle East,0.36
+Closed Lost,Japan,6.05
+Closed Lost,EMEA,17.65
+Closed Lost,APAC,9.39
+Closed Lost,Americas,13.80
+Closed Lost,Middle East,1.67
