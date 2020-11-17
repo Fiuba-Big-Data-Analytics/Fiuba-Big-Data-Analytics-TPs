@@ -38,11 +38,11 @@ NW America         1568
 Australia          1208
 India               809
                    ... 
-Croatia               1
-Monaco                1
 Solomon Islands       1
 Egypt                 1
-Czech Republic        1
+Croatia               1
+Burma                 1
+Monaco                1
 Name: Territory, Length: 76, dtype: int64
 
 ================================================================================
@@ -130,17 +130,17 @@ Name: Source, dtype: int64
 
 Billing_Country
 
-Japan                     4879
-United States             3802
-Germany                   1979
-Australia                 1169
-India                      672
-                          ... 
-Bosnia and Herzegovina       1
-Argentina                    1
-Peru                         1
-Morocco                      1
-Colombia                     1
+Japan            4879
+United States    3802
+Germany          1979
+Australia        1169
+India             672
+                 ... 
+Libya               1
+Ecuador             1
+Oman                1
+Argentina           1
+Kenya               1
 Name: Billing_Country, Length: 80, dtype: int64
 
 ================================================================================
@@ -476,8 +476,8 @@ Product_Category_B_4        37
 Product_Category_B_5        36
 Product_Category_B_17       27
 Product_Category_B_1        24
-Product_Category_B_3        23
 Product_Category_B_8        23
+Product_Category_B_3        23
 Product_Category_B_19       22
 Product_Category_B_11       21
 Product_Category_B_13       18
@@ -486,14 +486,14 @@ Product_Category_B_16       17
 Product_Category_B_24       16
 Product_Category_B_20        9
 Product_Category_B_6         9
-Product_Category_B_21        8
 Product_Category_B_15        8
+Product_Category_B_21        8
 Product_Category_B_23        5
 Product_Category_B_26        4
 Product_Category_B_14        4
-Product_Category_B_0         3
-Product_Category_B_10        3
 Product_Category_B_27        3
+Product_Category_B_10        3
+Product_Category_B_0         3
 Product_Category_B_22        2
 Name: Product_Category_B, dtype: int64
 
@@ -803,8 +803,8 @@ Month
 (11, 2018)    459
 (11, 2017)    450
 (1, 2017)     444
-(8, 2018)     440
 (2, 2016)     440
+(8, 2018)     440
 (9, 2018)     406
 (2, 2017)     392
 (4, 2016)     383
@@ -832,9 +832,9 @@ Month
 (3, 2020)       2
 (9, 2019)       2
 (9, 2020)       1
-(12, 2019)      1
 (11, 2019)      1
 (6, 2020)       1
+(12, 2019)      1
 Name: Month, dtype: int64
 
 ================================================================================
