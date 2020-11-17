@@ -61,6 +61,35 @@ def opportunity_id_stats(df):
     printt(f"{max_reg}")
     newline()
 
+    print_subtitle("Cantidad Máxima de Contratos por Oportunidad")
+
+    max_contracts = df.groupby("Opportunity_ID")[
+        "Sales_Contract_No"].nunique().max()
+    printt(f"{max_contracts}")
+    newline()
+
+    print_subtitle("Cantidad Máxima de Oportunidades por Contrato")
+
+    max_oppor = df.groupby("Sales_Contract_No")[
+        "Opportunity_ID"].nunique().max()
+    printt(f"{max_oppor}")
+    newline()
+
+    print_subtitle("Máximo Valor de Sales Contract Number")
+    max_contract = df["Sales_Contract_No"].max()
+    printt(f"{max_contract}")
+    newline()
+
+    print_subtitle("Mínimo Valor de Sales Contract Number")
+    min_contract = df["Sales_Contract_No"].min()
+    printt(f"{min_contract}")
+    newline()
+
+    print_subtitle("Números de Contrato Diferentes")
+    diff_contract = df["Sales_Contract_No"].nunique()
+    printt(f"{diff_contract}")
+    newline()
+
 
 counter = graph_counter.Counter()
 opportunity_id(counter)

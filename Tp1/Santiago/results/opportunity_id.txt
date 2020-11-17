@@ -30,3 +30,23 @@ Cantidad Máxima de Registros Para Oportunidad
 
 	36
 
+Cantidad Máxima de Contratos por Oportunidad
+
+	1
+
+Cantidad Máxima de Oportunidades por Contrato
+
+	1
+
+Máximo Valor de Sales Contract Number
+
+	6517.0
+
+Mínimo Valor de Sales Contract Number
+
+	0.0
+
+Números de Contrato Diferentes
+
+	5266
+
