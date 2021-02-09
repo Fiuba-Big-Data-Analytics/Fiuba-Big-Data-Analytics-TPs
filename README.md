@@ -1,23 +1,11 @@
 # Fiuba-Big-Data-Analytics-TPs
 
-[Enunciado](https://docs.google.com/document/d/1Ws7kfBmQmZ3BuUA7rGCnvhRGdl6MZYpC2c2GEvx7a2Y/edit)
+[Enunciado TP1](https://docs.google.com/document/d/1Ws7kfBmQmZ3BuUA7rGCnvhRGdl6MZYpC2c2GEvx7a2Y/edit)
+
+[Enunciado TP2](https://docs.google.com/document/d/1ZfZAJFjaKTtWtREfNAPUXhxnf6J42qI-mAg6vF1uWUA/edit)
 
 # Calendario
 
-## 1ra Entrega
-24 de Octubre
-Presentamos un buen análisis, tan grande como podemos.
-
-## 2da Entrega
-28 de Octubre
-Generamos graficos y nos adaptamos según lo que faltó
-
-## 3ra Entrega
-31 de Octubre
-Presentamos lo que hayamos hecho nuevamente, reunión para organizar temas finales y organizar lo poco que quede
-
-## Entrega Final
-2 de Noviembre
 
 # Integrantes: 
 
@@ -31,7 +19,10 @@ L'Enfan, Luis Fernndo  73993
 
 # Informe Overleaf
 
-[Informe](https://www.overleaf.com/2362158822csftdgdxfgsq)
+[Informe TP1](https://www.overleaf.com/2362158822csftdgdxfgsq)
+
+[Informe TP2](https://www.overleaf.com/project/60232055a0ac4077fddd2938)
+
 
 # Variables Leo
 Regions: Cantidad de Stages de cada tipo por cada region
