@@ -21,7 +21,7 @@ L'Enfan, Luis Fernndo  73993
 
 [Informe TP1](https://www.overleaf.com/2362158822csftdgdxfgsq)
 
-[Informe TP2](https://www.overleaf.com/project/60232055a0ac4077fddd2938)
+[Informe TP2](https://www.overleaf.com/1633589189jsvwcsqtgrxz)
 
 
 # Variables Leo
