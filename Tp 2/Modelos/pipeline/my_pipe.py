@@ -49,11 +49,11 @@ def drop_columns(X, columns):
   return X
 
 class MyPipeline:
-  def __init__(self, X_train, X_test, y_train):
+  def __init__(self, X_train, X_test):
     # Sets
     self.X_train = X_train
-    self.y_train = y_train
     self.X_test = X_test
+    self.y_train = None
 
     # Meta Data
     versions_results = pd.read_csv("../log_file.csv")
@@ -77,6 +77,7 @@ class MyPipeline:
 
     # Model
     self.model = None
+    self.target = "Stage"
     self.prediction = []
     self.error = None
     self.folds = 1
@@ -166,16 +167,17 @@ class MyPipeline:
     self.X_train = drop_columns(self.X_train, self.columns_to_remove)
     self.X_test = drop_columns(self.X_test, self.columns_to_remove)
 
+
     self.X_train.reset_index(drop=True, inplace=True)
     self.X_test.reset_index(drop=True, inplace=True)
-    self.y_train.reset_index(drop=True, inplace=True)
     return
 
 
   """ Train the model."""
   def train(self):
-    print(self.X_train.dtypes)
-    self.model.fit(self.X_train, self.y_train)
+    y_train = self.X_train["Stage"]
+    self.X_train = X_train = self.X_train.drop("Stage", axis=1)
+    self.model.fit(self.X_train, y_train)
 
 
   """ Generate the prediction."""
@@ -184,7 +186,7 @@ class MyPipeline:
 
 
   """ Score the model."""
-  def score(self):
+  def score(self, verbose=False):
     if self.folds == 1:
       prediction = self.model.predict_proba(self.X_train)
       self.error = log_loss(self.y_train, prediction)
@@ -202,11 +204,12 @@ class MyPipeline:
         prediction = self.model.predict_proba(X_test)
         try:
           errors.append(log_loss(y_test, prediction))
+          if verbose: print(f"FOLD {len(errors)} --- Score: {errors[-1]}")
         except ValueError:
           raise ValueError("Todos los valores de y_true son iguales")
 
       self.error = sum(errors) / len(errors)
-
+    if verbose: print(f"Score: {self.error}")
 
   """ Print the model information."""
   def output(self):     
@@ -221,3 +224,13 @@ class MyPipeline:
     
     with open("../log_file.csv", "a+") as log_file:
       log_file.write(f"{self.version},{self.error:.3f}\n")
+
+  """ Write a file to submit."""
+  def submit(self):
+    submit_file_name = f"../submits/v{self.version}.csv"
+
+    df = pd.DataFrame(columns=["Opportunity_ID", "Target"])
+    df["Opportunity_ID"] = self.X_test["Opportunity_ID"].astype(np.int64)
+    df["Target"] = self.prediction
+    df = df.sort_values(by=["Opportunity_ID"])
+    df.to_csv(submit_file_name, index=False)
