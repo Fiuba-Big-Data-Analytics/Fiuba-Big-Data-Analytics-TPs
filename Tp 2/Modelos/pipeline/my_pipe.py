@@ -8,6 +8,10 @@ from sklearn.metrics import log_loss
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
+def to_date(X, column):
+  X[column] = pd.to_datetime(X[column])
+  return X
+
 def add_columns(X, columnA, columnB):
   X[f"add_{columnA}_{columnB}"] = X[columnA] + X[columnB]
   return X
@@ -15,17 +19,15 @@ def add_columns(X, columnA, columnB):
 def substract_columns(X, columnA, columnB):
   X[f"sub_{columnA}_{columnB}"] = X[columnA] - X[columnB]
   return X
-
-def drop_columns(X, columns):
-  X.drop(columns, inplace=True, axis=1)
-  return X
   
 def impute_columns(X, columns, strategy):
-  imputer = ColumnTransformer([("imputer", SimpleImputer(strategy=strategy), columns)],remainder="passthrough")
-  imputed = pd.DataFrame(imputer.fit_transform(X))
-  imputed.columns = X.columns
+  imputer = SimpleImputer(strategy=strategy)
+  imputed = pd.DataFrame(imputer.fit_transform(X[columns]))
+  imputed.columns = columns
   imputed.index = X.index
-  return imputed
+  dropped_X = X.drop(columns, axis=1)
+  X = pd.concat([imputed,dropped_X], axis=1)
+  return X
 
 def one_hot_columns(X, columns):
   onehotter = OneHotEncoder(handle_unknown="ignore", sparse=False)
@@ -41,25 +43,32 @@ def label_columns(X, columns):
     X[col] = labeler.fit_transform(X[col])
   return X
 
+def drop_columns(X, columns):
+  existing_columns = [col for col in columns if col in X]
+  X = X.drop(existing_columns, axis=1)
+  return X
+
 class MyPipeline:
-  def __init__(self, X_train, X_test, y_train, y_test):
+  def __init__(self, X_train, X_test, y_train):
     # Sets
     self.X_train = X_train
     self.y_train = y_train
     self.X_test = X_test
-    self.y_test = y_test
 
     # Meta Data
-    versions_results = pd.read_csv("log_file.csv")
+    versions_results = pd.read_csv("../log_file.csv")
     self.version = versions_results["version"].max() + 1
 
     # Preprocessing
+    self.columns_to_date = []
+
+    self.columns_to_filter = []
     self.columns_to_remove = []
 
     self.columns_to_impute = {}
     self.columns_to_extend_imputation = set()
 
-    self.columns_to_label = {}
+    self.columns_to_label = set()
     self.columns_to_one_hot = []
 
     self.columns_to_substract = []
@@ -71,6 +80,13 @@ class MyPipeline:
     self.prediction = []
     self.error = None
     self.folds = 1
+
+
+  def apply_column_filter(self, columns):
+    self.columns_to_filter.extend(columns)
+
+  def apply_to_date(self, columns):
+    self.columns_to_date.extend(columns)
 
 
   """ Receives a list of columns to impute and a strategy and adds them to the pipeline."""
@@ -109,6 +125,7 @@ class MyPipeline:
   def apply_function(self, function):
     self.functions_to_apply.append(function)
 
+
   """ Sets the amount of folds for cross-validation scoring."""    
   def set_folds(self, k):
     self.folds = k
@@ -121,10 +138,17 @@ class MyPipeline:
 
   """ Execute all the preprocessing."""
   def preprocess(self):
+    self.X_train = drop_columns(self.X_train, self.columns_to_filter)
+    self.X_test = drop_columns(self.X_test, self.columns_to_filter)
+
+    for col in self.columns_to_date:
+      self.X_train = to_date(self.X_train, col)
+      self.X_test = to_date(self.X_test, col)
+
     for strat,cols in self.columns_to_impute.items():
       self.X_train = impute_columns(self.X_train, cols, strat)
       self.X_test = impute_columns(self.X_test, cols, strat)
-    
+        
     self.X_train = label_columns(self.X_train, self.columns_to_label)
     self.X_test = label_columns(self.X_test, self.columns_to_label)
 
@@ -145,11 +169,12 @@ class MyPipeline:
     self.X_train.reset_index(drop=True, inplace=True)
     self.X_test.reset_index(drop=True, inplace=True)
     self.y_train.reset_index(drop=True, inplace=True)
-    self.y_test.reset_index(drop=True, inplace=True)
+    return
 
 
   """ Train the model."""
   def train(self):
+    print(self.X_train.dtypes)
     self.model.fit(self.X_train, self.y_train)
 
 
@@ -185,7 +210,7 @@ class MyPipeline:
 
   """ Print the model information."""
   def output(self):     
-    with open(f"full_results/v{self.version}", "w+") as result_file:
+    with open(f"../full_results/v{self.version}", "w+") as result_file:
       result_file.write(f"Versión {self.version} - XGBoost\n")
       result_file.write("\n")
       result_file.write(f"Puntaje Estimado: {self.error}\n")
@@ -194,5 +219,5 @@ class MyPipeline:
       result_file.write(f"Folds: {self.folds}\n")
       result_file.write("\n")
     
-    with open("log_file.csv", "a+") as log_file:
+    with open("../log_file.csv", "a+") as log_file:
       log_file.write(f"{self.version},{self.error:.3f}\n")
