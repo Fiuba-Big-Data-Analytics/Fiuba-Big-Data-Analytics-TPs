@@ -10,6 +10,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 def to_date(X, column):
   X[column] = pd.to_datetime(X[column], format="%m/%d/%Y")
+  X[column] = X[column].astype(np.int64) // 10 ** 9 
   return X
 
 def add_columns(X, columnA, columnB):
@@ -33,6 +34,7 @@ def one_hot_columns(X, columns):
   onehotter = OneHotEncoder(handle_unknown="ignore", sparse=False)
   onehotted = pd.DataFrame(onehotter.fit_transform(X[columns]))
   onehotted.index = X.index
+  onehotted.columns = onehotter.get_feature_names()
   dropped_X = X.drop(columns, axis=1)
   X = pd.concat([dropped_X,onehotted], axis=1)
   return X
@@ -154,16 +156,13 @@ class MyPipeline:
     for cols, strat in self.columns_to_impute.items():
       self.X_train = impute_columns(self.X_train, list(cols), strat[0], strat[1])
       self.X_test = impute_columns(self.X_test, list(cols), strat[0], strat[1])
+
               
     self.X_train = label_columns(self.X_train, self.columns_to_label)
     self.X_test = label_columns(self.X_test, self.columns_to_label)
 
     self.X_train = one_hot_columns(self.X_train, self.columns_to_one_hot)
     self.X_test = one_hot_columns(self.X_test, self.columns_to_one_hot)
-
-    for cols in self.columns_to_add:
-      self.X_train = add_columns(self.X_train, *cols)
-      self.X_test = add_columns(self.X_test, *cols)
 
     for function in self.functions_to_apply:
       self.X_train = function(self.X_train)
@@ -191,16 +190,17 @@ class MyPipeline:
     self.y_train = self.X_train[self.target]
     self.X_train = self.X_train.drop(self.target, axis=1)
 
-    valid_size = int(len(self.X_train.index) * 0.10)
+    valid_size = int(len(self.X_train.index) * 0.20)
     self.X_valid = self.X_train.tail(valid_size)
     self.X_train = self.X_train.drop(self.X_train.tail(valid_size).index)
 
     self.y_valid = self.y_train.tail(valid_size)
     self.y_train = self.y_train.drop(self.y_train.tail(valid_size).index)
+
     if verbose: print("Fitting... 0%")
-    self.model.fit(
+    self.model = self.model.fit(
       self.X_train, self.y_train,
-      early_stopping_rounds=20,
+      early_stopping_rounds=5,
       eval_set=[(self.X_valid, self.y_valid)],
       verbose=verbose
     )
@@ -258,6 +258,12 @@ class MyPipeline:
       for param,value in self.params.items():
         result_file.write(f"{param}: {value}\n")
       result_file.write("\n")
+
+      fimp = [(feature, importance) for feature, importance in self.model.get_booster().get_score(importance_type="gain").items()]
+      fimp.sort(key=lambda x: -x[1])
+      for f in fimp:
+        result_file.write(f"{f[0]}: {f[1]}\n")
+
     
     with open("../log_file.csv", "a+") as log_file:
       log_file.write(f"{self.version},{self.error:.3f}\n")

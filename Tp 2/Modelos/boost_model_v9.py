@@ -3,8 +3,8 @@ from pipeline.my_pipe import MyPipeline
 from util_functions import *
 
 xgb_params = {
-    "max_depth":50,
-    "learning_rate":0.01,
+    "max_depth":25,
+    "learning_rate":0.1,
     "n_estimators":500,
     "objective":'binary:logistic',
     "booster":'gbtree',
@@ -80,6 +80,7 @@ def preprocess(pipe, X):
   # Apply various functions
   pipe.apply_function(preprocess_amounts)
   pipe.apply_function(preprocess_delivery_dates)
+  pipe.apply_function(delete_old_registers)
   pipe.apply_function(sort_by_dates)
   pipe.apply_function(binary_columns)
   pipe.apply_function(unify_coins)
