@@ -54,6 +54,8 @@ class MyPipeline:
     self.X_train = X_train
     self.X_test = X_test
     self.y_train = None
+    self.X_valid = None
+    self.y_valid = None
 
     # Meta Data
     versions_results = pd.read_csv("../log_file.csv")
@@ -177,16 +179,33 @@ class MyPipeline:
 
 
   """ Train the model."""
-  def train(self):
+  def train(self, verbose=False):
     self.y_train = self.X_train[self.target]
     self.X_train = self.X_train.drop(self.target, axis=1)
+    if verbose: print("Fitting... 0%")
     self.model.fit(self.X_train, self.y_train)
+    if verbose: print("Fitting... 100%")
 
+  """ Train an XGB model."""
+  def train_xgb(self, verbose=False):
+    self.y_train = self.X_train[self.target]
+    self.X_train = self.X_train.drop(self.target, axis=1)
 
-  """ Fit given X and Y."""
-  def fit(self):
-    pass
+    valid_size = int(len(self.X_train.index) * 0.10)
+    self.X_valid = self.X_train.tail(valid_size)
+    self.X_train = self.X_train.drop(self.X_train.tail(valid_size).index)
 
+    self.y_valid = self.y_train.tail(valid_size)
+    self.y_train = self.y_train.drop(self.y_train.tail(valid_size).index)
+    if verbose: print("Fitting... 0%")
+    self.model.fit(
+      self.X_train, self.y_train,
+      early_stopping_rounds=20,
+      eval_set=[(self.X_valid, self.y_valid)],
+      verbose=verbose
+    )
+    if verbose: 
+      print(f"Score: {self.model.best_score} --- Iter: {self.model.best_iteration} --- ntree-limit: {self.model.best_ntree_limit}")
 
   """ Generate the prediction."""
   def predict(self):
@@ -218,6 +237,13 @@ class MyPipeline:
 
       self.error = sum(errors) / len(errors)
     if verbose: print(f"Score: {self.error}")
+
+  def score_xgb(self, verbose=False):
+    self.error = self.model.best_score
+    if verbose: print(f"Score: {self.error}")
+
+  def grid_search(self, gs, verbose=False):
+    pass
 
   """ Print the model information."""
   def output(self):     
