@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
 def to_date(X, column):
-  X[column] = pd.to_datetime(X[column])
+  X[column] = pd.to_datetime(X[column], format="%m/%d/%Y")
   return X
 
 def add_columns(X, columnA, columnB):
@@ -20,8 +20,8 @@ def substract_columns(X, columnA, columnB):
   X[f"sub_{columnA}_{columnB}"] = X[columnA] - X[columnB]
   return X
   
-def impute_columns(X, columns, strategy):
-  imputer = SimpleImputer(strategy=strategy)
+def impute_columns(X, columns, strategy, fill_value=None):
+  imputer = SimpleImputer(strategy=strategy, fill_value=fill_value)
   imputed = pd.DataFrame(imputer.fit_transform(X[columns]))
   imputed.columns = columns
   imputed.index = X.index
@@ -77,6 +77,7 @@ class MyPipeline:
 
     # Model
     self.model = None
+    self.params = {}
     self.target = "Stage"
     self.prediction = []
     self.error = None
@@ -91,11 +92,9 @@ class MyPipeline:
 
 
   """ Receives a list of columns to impute and a strategy and adds them to the pipeline."""
-  def apply_imputation(self, columns, strategy):
-    if strategy in self.columns_to_impute:
-      self.columns_to_impute[strategy].extend(columns)
-    else:
-      self.columns_to_impute[strategy] = columns
+  def apply_imputation(self, columns, strategy, fill_value=None):
+    key_cols = tuple(columns)
+    self.columns_to_impute[key_cols] = (strategy,fill_value)
 
   """ Receives a list of columns to label and adds them to the pipeline."""
   def apply_labeling(self, columns):
@@ -137,6 +136,10 @@ class MyPipeline:
     self.model = model
 
 
+  def set_params(self, params):
+    self.params = params
+
+
   """ Execute all the preprocessing."""
   def preprocess(self):
     self.X_train = drop_columns(self.X_train, self.columns_to_filter)
@@ -146,10 +149,10 @@ class MyPipeline:
       self.X_train = to_date(self.X_train, col)
       self.X_test = to_date(self.X_test, col)
 
-    for strat,cols in self.columns_to_impute.items():
-      self.X_train = impute_columns(self.X_train, cols, strat)
-      self.X_test = impute_columns(self.X_test, cols, strat)
-        
+    for cols, strat in self.columns_to_impute.items():
+      self.X_train = impute_columns(self.X_train, list(cols), strat[0], strat[1])
+      self.X_test = impute_columns(self.X_test, list(cols), strat[0], strat[1])
+              
     self.X_train = label_columns(self.X_train, self.columns_to_label)
     self.X_test = label_columns(self.X_test, self.columns_to_label)
 
@@ -175,9 +178,14 @@ class MyPipeline:
 
   """ Train the model."""
   def train(self):
-    y_train = self.X_train["Stage"]
-    self.X_train = X_train = self.X_train.drop("Stage", axis=1)
-    self.model.fit(self.X_train, y_train)
+    self.y_train = self.X_train[self.target]
+    self.X_train = self.X_train.drop(self.target, axis=1)
+    self.model.fit(self.X_train, self.y_train)
+
+
+  """ Fit given X and Y."""
+  def fit(self):
+    pass
 
 
   """ Generate the prediction."""
@@ -218,8 +226,11 @@ class MyPipeline:
       result_file.write("\n")
       result_file.write(f"Puntaje Estimado: {self.error}\n")
       result_file.write("\n")
-      result_file.write("Hiperparametros:\n")
       result_file.write(f"Folds: {self.folds}\n")
+      result_file.write("\n")
+      result_file.write("Hiperparametros:\n")
+      for param,value in self.params.items():
+        result_file.write(f"{param}: {value}\n")
       result_file.write("\n")
     
     with open("../log_file.csv", "a+") as log_file:
