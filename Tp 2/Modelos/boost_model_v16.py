@@ -74,6 +74,7 @@ columns_to_one_hot = [
 def preprocess(pipe, X):
   # Remove ignored columns
   pipe.apply_column_filter(columns_filtered)
+  pipe.apply_pre_function(prefix_columns)
 
   # Change types to correct value
   preprocess_dates(pipe)
@@ -111,10 +112,10 @@ def main():
   set_xgb_model(pipe, xgb_params)
   pipe.set_time_folds(10)
   pipe.preprocess()
-  pipe.train(verbose=True)
+  pipe.train_xgb(verbose=True)
   #pipe.predict()
-  pipe.score(verbose=True)
-  #pipe.output()
+  pipe.score_xgb(verbose=True)
+  pipe.output()
   #pipe.submit()
   print("TODO OK")
 

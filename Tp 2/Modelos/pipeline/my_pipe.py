@@ -4,6 +4,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import MissingIndicator
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import KFold
+from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import log_loss
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
@@ -50,6 +51,30 @@ def drop_columns(X, columns):
   X = X.drop(existing_columns, axis=1)
   return X
 
+""" Prints the feature importance, undoing OneHot, without knowledge of original cardinality."""
+def output_importances(fimps, results_file):
+  fimp_list = []
+  fimp_dict = {}
+  for feature, importance in fimps.items():
+    if feature[0] != "x": # OneHotEncoder adds an x at the beginning, so this is not categorical
+      fimp_list.append((feature, importance))
+    else:
+      sufix_pos = -1
+      while feature[sufix_pos] != "_":
+        sufix_pos -= 1
+      feat_name = feature[3:sufix_pos]
+      if feat_name in fimp_dict:
+        fimp_dict[feat_name].append(importance)
+      else:
+        fimp_dict[feat_name] = [importance]
+  for feature, importances in fimp_dict.items():
+    importance = sum(importances) / len(importances)
+    fimp_list.append((feature, importance))
+  fimp_list.sort(key=lambda x: -x[1])
+  for f in fimp_list:
+    results_file.write(f"{f[0]}: {f[1]}\n")
+
+
 class MyPipeline:
   def __init__(self, X_train, X_test):
     # Sets
@@ -64,6 +89,7 @@ class MyPipeline:
     self.version = versions_results["version"].max() + 1
 
     # Preprocessing
+    self.pre_functions_to_apply = []
     self.columns_to_date = []
 
     self.columns_to_filter = []
@@ -88,8 +114,13 @@ class MyPipeline:
     self.folds = 1
 
 
+  def apply_pre_function(self, function):
+    self.pre_functions_to_apply.append(function)
+
+
   def apply_column_filter(self, columns):
     self.columns_to_filter.extend(columns)
+
 
   def apply_to_date(self, columns):
     self.columns_to_date.extend(columns)
@@ -132,8 +163,12 @@ class MyPipeline:
 
   """ Sets the amount of folds for cross-validation scoring."""    
   def set_folds(self, k):
-    self.folds = k
+    self.folds = KFold(n_splits=k)
 
+
+  """ Sets the amount of time folds for cross-validation scoring."""    
+  def set_time_folds(self, k):
+    self.folds = TimeSeriesSplit(n_splits=k)
 
   """ Sets the model used."""
   def set_model(self, model):
@@ -149,6 +184,10 @@ class MyPipeline:
     self.X_train = drop_columns(self.X_train, self.columns_to_filter)
     self.X_test = drop_columns(self.X_test, self.columns_to_filter)
 
+    for function in self.pre_functions_to_apply:
+      self.X_train = function(self.X_train)
+      self.X_test = function(self.X_test)
+    
     for col in self.columns_to_date:
       self.X_train = to_date(self.X_train, col)
       self.X_test = to_date(self.X_test, col)
@@ -156,7 +195,6 @@ class MyPipeline:
     for cols, strat in self.columns_to_impute.items():
       self.X_train = impute_columns(self.X_train, list(cols), strat[0], strat[1])
       self.X_test = impute_columns(self.X_test, list(cols), strat[0], strat[1])
-
               
     self.X_train = label_columns(self.X_train, self.columns_to_label)
     self.X_test = label_columns(self.X_test, self.columns_to_label)
@@ -220,9 +258,8 @@ class MyPipeline:
     else:
       self.X_train.reset_index(drop=True, inplace=True)
       self.y_train.reset_index(drop=True, inplace=True)
-      folds = KFold(n_splits=self.folds)
       errors = []
-      for train_index, test_index  in folds.split(self.X_train):
+      for train_index, test_index  in self.folds.split(self.X_train):
         X_train = self.X_train.loc[train_index,:] 
         y_train = self.y_train.loc[train_index]
         X_test = self.X_train.loc[test_index,:]
@@ -237,6 +274,23 @@ class MyPipeline:
 
       self.error = sum(errors) / len(errors)
     if verbose: print(f"Score: {self.error}")
+
+
+  def score_2(self):
+    self.y_train = self.X_train[self.target]
+    self.X_train = self.X_train.drop(self.target, axis=1)
+
+    valid_size = int(len(self.X_train.index) * 0.20)
+    self.X_valid = self.X_train.tail(valid_size)
+    self.X_train = self.X_train.drop(self.X_train.tail(valid_size).index)
+
+    self.y_valid = self.y_train.tail(valid_size)
+    self.y_train = self.y_train.drop(self.y_train.tail(valid_size).index)
+
+    self.model.fit(self.X_train, self.y_train)
+    predictions = self.model.predict_proba(self.X_valid)
+    error = log_loss(self.y_valid, predictions)
+    print(error)
 
   def score_xgb(self, verbose=False):
     self.error = self.model.best_score
@@ -259,10 +313,7 @@ class MyPipeline:
         result_file.write(f"{param}: {value}\n")
       result_file.write("\n")
 
-      fimp = [(feature, importance) for feature, importance in self.model.get_booster().get_score(importance_type="gain").items()]
-      fimp.sort(key=lambda x: -x[1])
-      for f in fimp:
-        result_file.write(f"{f[0]}: {f[1]}\n")
+      output_importances(self.model.get_booster().get_score(importance_type="gain"), result_file)
 
     
     with open("../log_file.csv", "a+") as log_file:

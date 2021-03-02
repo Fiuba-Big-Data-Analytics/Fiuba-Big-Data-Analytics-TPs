@@ -39,11 +39,15 @@ columns_filtered = [
     "Last_Activity",          # Empty
     "Prod_Category_A",        # Empty
     "Brand",                  # Maybe-Useless
-    "Product_Type",
-    "Size",
-    "Product_Category_B",
-    "Price",
-    "Currency",
+    "Product_Type",           # Maybe-Useless
+    "Size",                   # Maybe-Useless
+    "Product_Category_B",     # Maybe-Useless
+    "Price",                  # Maybe-Useless
+    "Currency",               # Maybe-Useless
+    "Product_Family",         # High Cardinality, Low Importance
+    "Account_Owner",          # High Cardinality, Might make noise
+    "Opportunity_Owner",      # High Cardinality, Might make noise
+
   ]
 
 # Columnas Borradas al final
@@ -63,17 +67,16 @@ columns_to_one_hot = [
     "Region",
     "Bureaucratic_Code",
     "Billing_Country",
-    "Account_Owner",
-    "Opportunity_Owner",
     "Account_Type",
     "Opportunity_Type",
     "Delivery_Terms",
-    "Product_Family"
   ]
 
 def preprocess(pipe, X):
   # Remove ignored columns
   pipe.apply_column_filter(columns_filtered)
+  pipe.apply_pre_function(prefix_columns)
+  pipe.apply_pre_function(fill_nones)
 
   # Change types to correct value
   preprocess_dates(pipe)
@@ -111,10 +114,10 @@ def main():
   set_xgb_model(pipe, xgb_params)
   pipe.set_time_folds(10)
   pipe.preprocess()
-  pipe.train(verbose=True)
+  pipe.train_xgb(verbose=True)
   #pipe.predict()
-  pipe.score(verbose=True)
-  #pipe.output()
+  pipe.score_xgb(verbose=True)
+  pipe.output()
   #pipe.submit()
   print("TODO OK")
 

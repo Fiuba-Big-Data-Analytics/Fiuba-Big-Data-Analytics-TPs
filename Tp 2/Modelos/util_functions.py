@@ -37,7 +37,6 @@ def set_xgb_model(pipe, xgb_params):
 def impute_all(pipe, X, filtered_columns):
   impute_numericals(pipe, X, filtered_columns)
   impute_datetimes(pipe, X, filtered_columns)
-  impute_source(pipe, X)
 
 def impute_numericals(pipe, X, filtered_columns):
   numerical_columns = list(X.select_dtypes(include=["float64", "int64"]).columns)
@@ -55,9 +54,6 @@ def impute_datetimes(pipe, X, filtered_columns):
   ]
   date_columns = [col for col in date_columns if col not in filtered_columns]
   pipe.apply_imputation(date_columns, "mean")
-
-def impute_source(pipe, X):
-  pipe.apply_imputation(["Source "], "constant", fill_value="Source_0")
 
 """ Applies one hot to all categorical columns. DANGER. Will crash the PC."""
 def apply_one_hot_to_all(pipe, X):
@@ -108,7 +104,7 @@ def preprocess_delivery_dates(X):
 
 """ Delete old registers due to possible lack of full registers on the dataframe."""
 def delete_old_registers(X):
-  X = X.loc[X["Opportunity_Created_Date"] > (np.datetime64("2015-01-01").astype(np.int64) // 10 ** 9) , :]
+  X = X.loc[X["Opportunity_Created_Date"] >= (np.datetime64("2015-01-01").astype(np.int64) // 10 ** 9) , :]
   return X
 
 """ Inserts a new column with negotiation length."""
@@ -147,6 +143,21 @@ def dates_to_timestamp(X):
   X_timedeltas = X.select_dtypes(include="timedelta64")
   for col in X_timedeltas:
     X[col] = X[col].astype(np.int64) // 10 ** 9
+  return X
+
+def prefix_columns(X):
+  columns_to_prefix = [
+  "Region",
+  "Territory",
+  "Billing_Country",
+  ]
+  for col in columns_to_prefix:
+    X[col] = X[col].apply(lambda x: col + "_" +x)
+  return X
+
+def fill_nones(X):
+  X["Source "] = X["Source "].replace({"None": "Source_None"})
+  X["Account_Type"] = X["Account_Type"].replace({"None": "Account_Type_None"})
   return X
 
 def get_factor_estim_periodo(X, currency, date_in_row):
