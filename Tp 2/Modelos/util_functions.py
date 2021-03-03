@@ -107,6 +107,17 @@ def delete_old_registers(X):
   X = X.loc[X["Opportunity_Created_Date"] >= (np.datetime64("2015-01-01").astype(np.int64) // 10 ** 9) , :]
   return X
 
+""" Deletes registers which weirdly have values and might corrupt the data."""
+def delete_anomalous_registers(X):
+  X = X.loc[X["Brand"] == "None",:]
+  X = X.loc[X["Product_Type"] == "None", :]
+  X = X.loc[X["Size"] == "None", :]
+  X = X.loc[X["Product_Category_B"] == "None", :]
+  X = X.loc[X["Price"] == "None", :]
+  X = X.loc[X["Currency"] == "None", :]
+  return X
+
+
 """ Inserts a new column with negotiation length."""
 def insert_negotiation_length(X):
   X["Negotiation_Length"] = X["Last_Modified_Date"] - X["Opportunity_Created_Date"]
@@ -116,6 +127,11 @@ def insert_negotiation_length(X):
 def insert_client_age(X):
   X["Client_Age"] = X["Opportunity_Created_Date"] - X["Account_Created_Date"]
   X = X.drop("Account_Created_Date", axis=1)
+  return X
+
+""" Inserts a new column indicating whether TRF is Zero or not"""
+def insert_trf_zero(X):
+  X["TRF_Zero"] = X["TRF"].apply(lambda x: 0 if x == 0 else 1)
   return X
 
 def concat_region_territory(X):
@@ -149,7 +165,6 @@ def prefix_columns(X):
   columns_to_prefix = [
   "Region",
   "Territory",
-  "Billing_Country",
   ]
   for col in columns_to_prefix:
     X[col] = X[col].apply(lambda x: col + "_" +x)

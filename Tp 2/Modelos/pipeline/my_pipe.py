@@ -72,7 +72,7 @@ def output_importances(fimps, results_file):
     fimp_list.append((feature, importance))
   fimp_list.sort(key=lambda x: -x[1])
   for f in fimp_list:
-    results_file.write(f"{f[0]}: {f[1]}\n")
+    results_file.write(f"{f[0]}: {f[1]:.3f}\n")
 
 
 class MyPipeline:
@@ -209,7 +209,6 @@ class MyPipeline:
     self.X_train = drop_columns(self.X_train, self.columns_to_remove)
     self.X_test = drop_columns(self.X_test, self.columns_to_remove)
 
-
     self.X_train.reset_index(drop=True, inplace=True)
     self.X_test.reset_index(drop=True, inplace=True)
     return
@@ -219,8 +218,11 @@ class MyPipeline:
   def train(self, verbose=False):
     self.y_train = self.X_train[self.target]
     self.X_train = self.X_train.drop(self.target, axis=1)
+    ids = self.X_train["Opportunity_ID"]
+    self.X_train = self.X_train.drop("Opportunity_ID", axis=1)
     if verbose: print("Fitting... 0%")
     self.model.fit(self.X_train, self.y_train)
+    self.X_train["Opportunity_ID"] = ids
     if verbose: print("Fitting... 100%")
 
   """ Train an XGB model."""
@@ -238,7 +240,7 @@ class MyPipeline:
     if verbose: print("Fitting... 0%")
     self.model = self.model.fit(
       self.X_train, self.y_train,
-      early_stopping_rounds=5,
+      early_stopping_rounds=3,
       eval_set=[(self.X_valid, self.y_valid)],
       verbose=verbose
     )
