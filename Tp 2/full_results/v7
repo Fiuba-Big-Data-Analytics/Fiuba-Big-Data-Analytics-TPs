@@ -1,0 +1,30 @@
+Versión 7 - XGBoost
+
+Puntaje Estimado: 0.383139
+
+Folds: 1
+
+Hiperparametros:
+max_depth: 50
+learning_rate: 0.01
+n_estimators: 371
+objective: binary:logistic
+booster: gbtree
+n_jobs: 4
+nthread: None
+gamma: 0
+min_child_weight: 1
+max_delta_step: 0
+subsample: 1
+colsample_bytree: 1
+colsample_bylevel: 1
+reg_alpha: 0
+reg_lambda: 1
+scale_pos_weight: 1
+base_score: 0.5
+random_state: 0
+seed: None
+missing: None
+use_label_encoder: False
+eval_metric: logloss
+

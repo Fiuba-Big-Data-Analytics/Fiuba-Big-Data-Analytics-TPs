@@ -14,7 +14,7 @@ def preprocess(pipe, X):
     "Last_Activity"
   ])
   preprocess_dates(pipe)
-  apply_imputation_to_all(pipe, X)
+  impute_all(pipe, X, set())
   pipe.apply_labeling(["Quote_Type"])
   apply_one_hot_to_all(pipe, X)
   pipe.apply_function(preprocess_amounts)
@@ -52,7 +52,7 @@ def main():
 
   #pipe.score(verbose=True)
   #pipe.output()
-  pipe.submit()
+  #pipe.submit()
   print("TODO OK")
 
 main()

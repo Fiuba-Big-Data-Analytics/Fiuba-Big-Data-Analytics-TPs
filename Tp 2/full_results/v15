@@ -1,0 +1,106 @@
+Versión 15 - XGBoost
+
+Puntaje Estimado: 0.481511
+
+Folds: 1
+
+Hiperparametros:
+max_depth: 6
+learning_rate: 0.25
+n_estimators: 10
+objective: binary:logistic
+booster: gbtree
+n_jobs: 4
+nthread: None
+gamma: 0
+min_child_weight: 1
+max_delta_step: 0
+subsample: 1
+colsample_bytree: 1
+colsample_bylevel: 1
+reg_alpha: 0
+reg_lambda: 1
+scale_pos_weight: 1
+base_score: 0.5
+random_state: 0
+seed: None
+missing: None
+use_label_encoder: False
+eval_metric: logloss
+
+TRF: 249.4368186325
+x1_Bureaucratic_Code_4: 126.41522560499999
+x6_Opportunity_Type_7: 52.97530061428571
+x1_Bureaucratic_Code_5: 50.140892824999995
+x4_Person_Name_13: 47.5720558
+x2_Japan: 44.486763759999995
+x6_Opportunity_Type_1: 33.2209091
+Quote_Expiry_Date: 30.05197684026667
+x3_Person_Name_16: 29.590021099999998
+x4_Person_Name_50: 29.402843173333334
+x2_India: 25.7016525
+Planned_Delivery_Date_Diff: 25.29057965381395
+x0_APAC: 24.8058249
+x4_Person_Name_19: 23.55278409866667
+x4_Person_Name_39: 21.400026299999997
+Last_Modified_Date: 20.765682687162155
+x4_Person_Name_16: 19.9648447
+x4_Person_Name_65: 19.9407215
+x4_Person_Name_46: 19.398052200000002
+x2_France: 17.7223377
+x3_Person_Name_50: 15.2891388
+x2_Singapore: 15.2722549
+Client_Age: 15.086603618695657
+x3_Person_Name_8: 14.4336222275
+x3_Person_Name_3: 14.2131796
+x1_Bureaucratic_Code_0: 14.11352005
+x2_Germany: 13.47567464
+Bureaucratic_Code_0_Approval: 13.217031535749996
+x3_Person_Name_52: 12.8647842
+x6_Opportunity_Type_8: 12.531444646
+Negotiation_Length: 12.014813674777779
+Total_Amount_Sum: 11.922642752066663
+x3_Person_Name_4: 11.726492906499999
+x8_Product_Family_121: 11.46967794
+x0_Americas: 11.428387634
+Delivery_Year: 10.998684256666667
+x8_Product_Family_133: 10.617289742
+x0_EMEA: 10.185317587666667
+x2_Norway: 9.80170441
+x4_Person_Name_49: 9.7985611
+x7_Delivery_Terms_4: 9.705599902500001
+x4_Person_Name_8: 9.31963731
+x1_Bureaucratic_Code_2: 9.17495918
+x8_Product_Family_100: 8.573017105
+x0_Japan: 8.125303256666667
+Pricing, Delivery_Terms_Approved: 7.969221827333333
+x8_Product_Family_204: 7.898541146666667
+x3_Person_Name_64: 7.701215106666667
+x7_Delivery_Terms_5: 7.3644618885
+x4_Person_Name_3: 7.30858994
+x3_Person_Name_49: 6.52399826
+x7_Delivery_Terms_2: 5.925549269999999
+x3_Person_Name_66: 5.305397036666666
+Opportunity_ID: 5.248233006334783
+Pricing, Delivery_Terms_Quote_Appr: 5.17651558
+x4_Person_Name_18: 4.58207703
+x5_Account_Type_5: 4.56225884
+x8_Product_Family_116: 4.44947816
+x7_Delivery_Terms_6: 4.39467049
+x7_Delivery_Terms_1: 4.22710657
+x4_Person_Name_64: 4.1816368100000005
+x8_Product_Family_109: 2.5750618000000003
+x8_Product_Family_158: 2.23923969
+x8_Product_Family_77: 1.88910484
+x2_United Kingdom: 1.8264102924999999
+x4_Person_Name_12: 1.6042327866666666
+x8_Product_Family_115: 1.47981644
+x2_China: 1.4761343
+x8_Product_Family_73: 1.3967183433333332
+x3_Person_Name_65: 1.15759277
+Bureaucratic_Code_0_Approved: 1.026728472
+x5_Account_Type_2: 0.700553894
+x8_Product_Family_132: 0.302265167
+x2_Philippines: 0.2752056125
+x3_Person_Name_5: 0.246130943
+x8_Product_Family_208: 0.111488342
