@@ -162,11 +162,11 @@ def dates_to_timestamp(X):
   return X
 
 def prefix_columns(X):
-  columns_to_prefix = [
+  columns_to_full_prefix = [
   "Region",
   "Territory",
   ]
-  for col in columns_to_prefix:
+  for col in columns_to_full_prefix:
     X[col] = X[col].apply(lambda x: col + "_" +x)
   return X
 
@@ -219,4 +219,18 @@ def binary_columns(X):
   X["Product_Category_B"] = X["Product_Category_B"].apply(lambda v: 1 if v=="None" else 0)
   X["Price"] = X["Price"].apply(lambda v: 1 if v=="None" else 0)
   X["Currency"] = X["Currency"].apply(lambda v: 1 if v=="None" else 0)
+  return X
+
+def group_registers(X):
+  columns_to_group = [
+    "Product_Family",
+  ]
+  
+  REPRESENTANTIVENESS = 0.05
+
+  for column in columns_to_group:  
+    v_counts = X[column].value_counts(normalize=True) 
+    print(f"{column}_Other")
+    X[column] = X[column].apply(lambda x: f"{column}_Other" if v_counts[x] < REPRESENTANTIVENESS else x)
+
   return X

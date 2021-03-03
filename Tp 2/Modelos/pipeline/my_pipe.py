@@ -62,6 +62,7 @@ def output_importances(fimps, results_file):
       sufix_pos = -1
       while feature[sufix_pos] != "_":
         sufix_pos -= 1
+      print(sufix_pos, feature)
       feat_name = feature[3:sufix_pos]
       if feat_name in fimp_dict:
         fimp_dict[feat_name].append(importance)
@@ -266,7 +267,11 @@ class MyPipeline:
         y_train = self.y_train.loc[train_index]
         X_test = self.X_train.loc[test_index,:]
         y_test = self.y_train.loc[test_index]
+        #ids = X_train["Opportunity_ID"]
+        #X_train = X_train.drop("Opportunity_ID", axis=1)
         self.model.fit(X_train,y_train)
+        #X_train["Opportunity_ID"] = ids
+        
         prediction = self.model.predict_proba(X_test)
         try:
           errors.append(log_loss(y_test, prediction))

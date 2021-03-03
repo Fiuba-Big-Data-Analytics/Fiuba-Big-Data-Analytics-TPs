@@ -37,7 +37,7 @@ columns_filtered = [
     "Sales_Contract_No",      # Leakage
     "Last_Activity",          # No-Data
     "Prod_Category_A",        # No-Data
-    "Product_Family",         # High Cardinality, Low Importance
+    #"Product_Family",         # High Cardinality, Low Importance
     "Account_Name"            # High Cardinality, Might make noise
     "Account_Owner",          # High Cardinality, Might make noise
     "Opportunity_Owner",      # High Cardinality, Might make noise
@@ -68,11 +68,13 @@ columns_to_one_hot = [
     "Account_Type",
     "Opportunity_Type",
     "Delivery_Terms",
+    "Product_Family"
   ]
 
 def preprocess(pipe, X):
   # Remove ignored columns
   pipe.apply_column_filter(columns_filtered)
+  pipe.apply_pre_function(group_registers)
   pipe.apply_pre_function(prefix_columns)
   pipe.apply_pre_function(fill_nones)
 
@@ -118,7 +120,7 @@ def main():
   pipe.train(verbose=True)
   pipe.predict()
   pipe.score(verbose=True)
-  #pipe.output()
+  pipe.output()
   #pipe.submit()
   print("TODO OK")
 
