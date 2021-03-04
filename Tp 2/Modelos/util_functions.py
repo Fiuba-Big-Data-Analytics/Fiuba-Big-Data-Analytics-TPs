@@ -81,7 +81,7 @@ def preprocess_amounts(X):
 """ Sum Total_Amount into Total_Amount_Sum, truncating down to tens of thousands, dropping Total_Taxable_Amount."""
 def preprocess_amounts_blocks(X):
   X["Total_Amount_Sum"] = X.groupby("Opportunity_ID")["Total_Amount"].transform("sum")
-  X["Total_Amount_Sum"] = (X["Total_Amount_Sum"] // 10000) * 10000
+  X["Total_Amount_Sum"] = (X["Total_Amount_Sum"] // 100) * 100
   X = X.drop(["Total_Taxable_Amount","Total_Amount"], axis=1)
 
   return X
