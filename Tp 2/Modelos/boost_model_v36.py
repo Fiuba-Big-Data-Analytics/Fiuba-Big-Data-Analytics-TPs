@@ -4,13 +4,13 @@ from util_functions import *
 
 xgb_params = {
     "max_depth":4,
-    "learning_rate":0.05,
+    "learning_rate":0.1,
     "n_estimators":250,
     "objective":'binary:logistic',
     "booster":'gbtree',
     "n_jobs":1,
     "nthread":None,
-    "gamma":0,
+    "gamma":0.25,
     "min_child_weight":1,
     "max_delta_step":0,
     "subsample":1,
@@ -134,9 +134,3 @@ def main():
   print("TODO OK")
 
 main()
-
-#0.47
-#0.41
-
-#0.5048
-#0.416546

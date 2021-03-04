@@ -5,9 +5,11 @@ from sklearn.impute import MissingIndicator
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import KFold
 from sklearn.model_selection import TimeSeriesSplit
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import log_loss
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
+from xgboost import XGBClassifier
 
 def to_date(X, column):
   X[column] = pd.to_datetime(X[column], format="%m/%d/%Y")
@@ -46,10 +48,12 @@ def one_hot_columns(X, columns, onehotter):
   X = pd.concat([dropped_X,onehotted], axis=1)
   return X
 
+"""
 def label_columns(X_train, X_test, columns, labeler):
   for col in columns:
     X[col] = labeler.fit_transform(X[col])
   return X
+"""
 
 def drop_columns(X, columns):
   existing_columns = [col for col in columns if col in X]
@@ -231,9 +235,51 @@ class MyPipeline:
     ids = self.X_train["Opportunity_ID"]
     self.X_train = self.X_train.drop("Opportunity_ID", axis=1)
     if verbose: print("Fitting... 0%")
+
+
+
     self.model.fit(self.X_train, self.y_train)
     self.X_train["Opportunity_ID"] = ids
     if verbose: print("Fitting... 100%")
+
+
+  def grid_search(self, verbose=False):
+    X = pd.read_csv("train_pre.csv")
+    y = X["Stage"]
+    X = X.drop("Stage", axis=1)
+
+    param_test = {
+    'max_depth':range(4,9,1),
+        
+    'gamma':[0,0.25,0.5],
+        
+    'n_estimators':[250],
+
+    'learning_rate':[0.1,0.20,0.3],
+
+    "use_label_encoder":[False],
+
+    "eval_metric": ["logloss"]
+    }
+
+    gsearch = GridSearchCV(estimator = XGBClassifier(), 
+    param_grid = param_test, scoring='neg_log_loss',n_jobs=2,cv=5)
+
+    ids = X["Opportunity_ID"]
+    X = X.drop("Opportunity_ID", axis=1)
+
+    print("Begin")
+
+    gsearch.fit(X,y, verbose=2)
+
+    X["Opportunity_ID"] = ids
+
+    print("CV Results:")
+    print(gsearch.cv_results_)
+    print("Best Params:")
+    print(gsearch.best_params_)
+    print("Best Score:")
+    print(gsearch.best_score_)
 
   """ Train an XGB model."""
   def train_xgb(self, verbose=False):
@@ -323,9 +369,6 @@ class MyPipeline:
   def score_xgb(self, verbose=False):
     self.error = self.model.best_score
     if verbose: print(f"Score: {self.error}")
-
-  def grid_search(self, gs, verbose=False):
-    pass
 
   """ Print the model information."""
   def output(self):     
