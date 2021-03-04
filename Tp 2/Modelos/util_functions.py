@@ -41,6 +41,7 @@ def impute_all(pipe, X, filtered_columns):
 def impute_numericals(pipe, X, filtered_columns):
   numerical_columns = list(X.select_dtypes(include=["float64", "int64"]).columns)
   numerical_columns = [col for col in numerical_columns if col not in filtered_columns]
+  numerical_columns.remove("TRF")
   numerical_columns.remove("Stage")
   pipe.apply_imputation(numerical_columns, "mean")
 
@@ -165,6 +166,8 @@ def prefix_columns(X):
   columns_to_full_prefix = [
   "Region",
   "Territory",
+  "Billing_Country",
+  "TRF"
   ]
   for col in columns_to_full_prefix:
     X[col] = X[col].apply(lambda x: col + "_" +x)
@@ -221,16 +224,49 @@ def binary_columns(X):
   X["Currency"] = X["Currency"].apply(lambda v: 1 if v=="None" else 0)
   return X
 
-def group_registers(X):
+"""
+def group_categoric_registers_train(X):
   columns_to_group = [
     "Product_Family",
+    "Billing_Country",
+    "Opportunity_Owner",
+    "Account_Name",
+    "Account_Owner",
+    "TRF"
   ]
   
-  REPRESENTANTIVENESS = 0.05
+  SAMPLE_SIZE = len(X.index) // 20
 
   for column in columns_to_group:  
-    v_counts = X[column].value_counts(normalize=True) 
-    print(f"{column}_Other")
-    X[column] = X[column].apply(lambda x: f"{column}_Other" if v_counts[x] < REPRESENTANTIVENESS else x)
+    others_group = set()
+
+    v_counts = X[column].value_counts().sort_values()
+    for v, count in v_counts.iteritems():
+      if count < SAMPLE_SIZE:
+        others_group.add(v)
+
+    X[column] = X[column].apply(lambda v: f"Other" if v in others_group else v)
+    print(X[column].value_counts())
+  
+"""
+
+def group_registers(X):
+  prod_fam_cats = {"Product_Family_77", "Product_Family_133"}
+  X["Product_Family"] = X["Product_Family"].apply(lambda v: "Product_Family_Other" if v not in prod_fam_cats else v)
+
+  bill_count_cats = {"Japan", "United States", "Germany", "Australia"}
+  X["Billing_Country"] = X["Billing_Country"].apply(lambda v: "Other" if v not in bill_count_cats else v)
+
+  opp_own_cats = {"Person_Name_50", "Person_Name_8", "Person_Name_13", "Person_Name_18"}
+  X["Opportunity_Owner"] = X["Opportunity_Owner"].apply(lambda v: "Person_Name_Other" if v not in opp_own_cats else v)
+
+  acc_name_cats = {"Account_Name_1888", "Account_Name_1836"}
+  X["Account_Name"] = X["Account_Name"].apply(lambda v: "Account_Name_Other" if v not in acc_name_cats else v)
+
+  acc_own_cats = {"Person_Name_50","Person_Name_13","Person_Name_8","Person_Name_43","Person_Name_18","Person_Name_3"}
+  X["Account_Owner"] = X["Account_Owner"].apply(lambda v: "Person_Name_Other" if v not in acc_own_cats else v)
+
+  X["TRF"] = X["TRF"].apply(lambda v: "Other" if v > 1 else str(v))
 
   return X
+

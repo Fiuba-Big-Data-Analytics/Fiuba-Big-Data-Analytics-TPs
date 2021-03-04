@@ -1,0 +1,70 @@
+[santiagoczop@localhost Modelos]$ python boost_model_v28.py
+Other                 14289
+Product_Family_77      1345
+Product_Family_133     1249
+Name: Product_Family, dtype: int64
+Other            5095
+Japan            4856
+United States    3790
+Germany          1977
+Australia        1165
+Name: Billing_Country, dtype: int64
+Other             9453
+Person_Name_50    3773
+Person_Name_8     1422
+Person_Name_13    1253
+Person_Name_18     982
+Name: Opportunity_Owner, dtype: int64
+Other                13875
+Account_Name_1888     2122
+Account_Name_1836      886
+Name: Account_Name, dtype: int64
+Other             7345
+Person_Name_50    3722
+Person_Name_13    1327
+Person_Name_8     1286
+Person_Name_43    1235
+Person_Name_18    1093
+Person_Name_3      875
+Name: Account_Owner, dtype: int64
+0        11942
+Other     2764
+1         2177
+Name: TRF, dtype: int64
+Other                 1158
+Product_Family_168     391
+Product_Family_140     242
+Product_Family_133     189
+Product_Family_167     149
+Product_Family_213     147
+Product_Family_162     144
+Product_Family_132     131
+Name: Product_Family, dtype: int64
+United States    998
+Other            728
+Germany          293
+Japan            201
+Australia        190
+France           141
+Name: Billing_Country, dtype: int64
+Other             1612
+Person_Name_64     255
+Person_Name_8      251
+Person_Name_13     161
+Person_Name_18     137
+Person_Name_9      135
+Name: Opportunity_Owner, dtype: int64
+Other    2551
+Name: Account_Name, dtype: int64
+Other             1328
+Person_Name_64     262
+Person_Name_8      246
+Person_Name_43     210
+Person_Name_18     196
+Person_Name_13     169
+Person_Name_9      140
+Name: Account_Owner, dtype: int64
+0        1706
+1         496
+Other     349
+Name: TRF, dtype: int64

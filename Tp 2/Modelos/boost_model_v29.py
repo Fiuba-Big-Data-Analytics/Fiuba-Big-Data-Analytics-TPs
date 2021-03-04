@@ -3,20 +3,20 @@ from pipeline.my_pipe import MyPipeline
 from util_functions import *
 
 xgb_params = {
-    "max_depth":5,
+    "max_depth":3,
     "learning_rate":0.1,
-    "n_estimators":60,
+    "n_estimators":100,
     "objective":'binary:logistic',
     "booster":'gbtree',
-    "n_jobs":4,
+    "n_jobs":1,
     "nthread":None,
-    "gamma":0.4,
+    "gamma":0,
     "min_child_weight":1,
     "max_delta_step":0,
-    "subsample":0.75,
-    "colsample_bytree":0.7,
+    "subsample":1,
+    "colsample_bytree":1,
     "colsample_bylevel":1,
-    "reg_alpha":0.01,
+    "reg_alpha":0,
     "reg_lambda":1,
     "scale_pos_weight":1,
     "base_score":0.5,
@@ -37,11 +37,9 @@ columns_filtered = [
     "Sales_Contract_No",      # Leakage
     "Last_Activity",          # No-Data
     "Prod_Category_A",        # No-Data
-    #"Product_Family",         # High Cardinality, Low Importance
-    #"Account_Name"            # High Cardinality, Might make noise
-    #"Account_Owner",          # High Cardinality, Might make noise
-    #"Opportunity_Owner",      # High Cardinality, Might make noise
-    #"Billing_Country"         # High Cardinality, Might make noise
+    "Account_Owner"           # Non-Representative Categories in Train-Set
+    "Account_Name"            # Non-Representative Categories in Test-Set
+    "Product_Name"            # Non-Representative Categories from Train-Set found in Test-Set
   ]
 
 # Columnas Borradas al final
@@ -56,6 +54,7 @@ columns_removed = [
     "Product_Category_B",           # Anomalous
     "Price",                        # Anomalous
     "Currency",                     # Anomalous
+    "Last_Modified_Date"            # Engineered
   ]
 
 columns_to_label = [
@@ -64,12 +63,15 @@ columns_to_label = [
 
 columns_to_one_hot = [
     "Region",
+    "Billing_Country",
     "Bureaucratic_Code",
     "Account_Type",
     "Opportunity_Type",
     "Delivery_Terms",
-    "Product_Family"
-  ]
+    "Product_Family",
+    "Opportunity_Owner",
+    "TRF",
+  ] 
 
 def preprocess(pipe, X):
   # Remove ignored columns
@@ -92,7 +94,7 @@ def preprocess(pipe, X):
   #pipe.apply_function(delete_anomalous_registers)
   pipe.apply_function(insert_negotiation_length)
   pipe.apply_function(insert_client_age)
-  pipe.apply_function(insert_trf_zero)
+  #pipe.apply_function(insert_trf_zero)
   pipe.apply_function(preprocess_amounts_blocks)
   pipe.apply_function(preprocess_delivery_dates)
   pipe.apply_function(sort_by_dates)
@@ -115,13 +117,13 @@ def main():
 
   preprocess(pipe, X_train)
   set_xgb_model(pipe, xgb_params)
-  pipe.set_time_folds(10)
+  #pipe.set_time_folds(10)
   pipe.preprocess()
   pipe.train(verbose=True)
   pipe.predict()
-  pipe.score(verbose=True)
-  pipe.output()
-  #pipe.submit()
+  #pipe.score(verbose=True)
+  #pipe.output()
+  pipe.submit()
   print("TODO OK")
 
 main()

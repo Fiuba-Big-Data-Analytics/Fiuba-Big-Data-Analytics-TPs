@@ -62,7 +62,6 @@ def output_importances(fimps, results_file):
       sufix_pos = -1
       while feature[sufix_pos] != "_":
         sufix_pos -= 1
-      print(sufix_pos, feature)
       feat_name = feature[3:sufix_pos]
       if feat_name in fimp_dict:
         fimp_dict[feat_name].append(importance)
@@ -117,7 +116,6 @@ class MyPipeline:
 
   def apply_pre_function(self, function):
     self.pre_functions_to_apply.append(function)
-
 
   def apply_column_filter(self, columns):
     self.columns_to_filter.extend(columns)
@@ -210,8 +208,12 @@ class MyPipeline:
     self.X_train = drop_columns(self.X_train, self.columns_to_remove)
     self.X_test = drop_columns(self.X_test, self.columns_to_remove)
 
+    self.X_train.to_csv("train_pre.csv")
+    self.X_test.to_csv("test_pre.csv")
+
     self.X_train.reset_index(drop=True, inplace=True)
     self.X_test.reset_index(drop=True, inplace=True)
+
     return
 
 

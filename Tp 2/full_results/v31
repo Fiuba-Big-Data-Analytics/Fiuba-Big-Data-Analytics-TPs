@@ -1,0 +1,46 @@
+Versión 36 - XGBoost
+
+Puntaje Estimado: 0.5071426876826333
+
+Folds: TimeSeriesSplit(gap=0, max_train_size=None, n_splits=3, test_size=None)
+
+Hiperparametros:
+max_depth: 6
+learning_rate: 0.1
+n_estimators: 50
+objective: binary:logistic
+booster: gbtree
+n_jobs: 1
+nthread: None
+gamma: 0.1
+min_child_weight: 1
+max_delta_step: 0
+subsample: 1
+colsample_bytree: 1
+colsample_bylevel: 1
+reg_alpha: 0
+reg_lambda: 1
+scale_pos_weight: 1
+base_score: 0.5
+random_state: 0
+seed: None
+missing: None
+use_label_encoder: False
+eval_metric: logloss
+
+TRF: 183.015
+Bureaucratic_Code: 21.837
+Planned_Delivery_Date_Diff: 16.716
+Quote_Expiry_Date: 16.223
+Region: 11.621
+Billing_Country: 10.918
+Person_Name: 9.863
+Client_Age: 8.870
+Opportunity_Type: 8.475
+Total_Amount_Sum: 8.256
+Bureaucratic_Code_0_Approval: 8.111
+Product_Family: 7.711
+Delivery_Terms: 7.340
+Negotiation_Length: 6.824
+Account_Type: 6.205
+Opportunity_ID: 5.693

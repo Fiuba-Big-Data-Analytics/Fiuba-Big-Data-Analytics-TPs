@@ -5,18 +5,18 @@ from util_functions import *
 xgb_params = {
     "max_depth":5,
     "learning_rate":0.1,
-    "n_estimators":60,
+    "n_estimators":100,
     "objective":'binary:logistic',
     "booster":'gbtree',
-    "n_jobs":4,
+    "n_jobs":1,
     "nthread":None,
-    "gamma":0.4,
+    "gamma":0,
     "min_child_weight":1,
     "max_delta_step":0,
-    "subsample":0.75,
-    "colsample_bytree":0.7,
+    "subsample":1,
+    "colsample_bytree":1,
     "colsample_bylevel":1,
-    "reg_alpha":0.01,
+    "reg_alpha":0,
     "reg_lambda":1,
     "scale_pos_weight":1,
     "base_score":0.5,
@@ -69,7 +69,7 @@ columns_to_one_hot = [
     "Opportunity_Type",
     "Delivery_Terms",
     "Product_Family"
-  ]
+  ] 
 
 def preprocess(pipe, X):
   # Remove ignored columns
@@ -120,7 +120,7 @@ def main():
   pipe.train(verbose=True)
   pipe.predict()
   pipe.score(verbose=True)
-  pipe.output()
+  #pipe.output()
   #pipe.submit()
   print("TODO OK")
 
