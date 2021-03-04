@@ -62,9 +62,9 @@ columns_removed = [
     "Opportunity_ID"
   ]
 
-columns_to_label = [
-  "Quote_Type",
-]
+#columns_to_label = [
+#  "Quote_Type",
+#]
 
 columns_to_one_hot = [
     "Region",
@@ -90,7 +90,7 @@ def preprocess(pipe, X):
 
   # Apply data filling
   impute_all(pipe, X, set(columns_filtered))
-  pipe.apply_labeling(columns_to_label)
+  #pipe.apply_labeling(columns_to_label)
   pipe.apply_one_hot(columns_to_one_hot)
 
   # Apply various functions
@@ -99,10 +99,11 @@ def preprocess(pipe, X):
   #pipe.apply_function(delete_anomalous_registers)
   pipe.apply_function(insert_negotiation_length)
   pipe.apply_function(insert_client_age)
+  pipe.apply_function(binary_quote_type)
   #pipe.apply_function(insert_trf_zero)
   pipe.apply_function(preprocess_amounts_blocks)
   pipe.apply_function(preprocess_delivery_dates)
-  pipe.apply_function(sort_by_dates)
+  #pipe.apply_function(sort_by_dates)
   pipe.apply_function(unify_coins)
   pipe.apply_function(groupby_opp_id)
   pipe.apply_function(drop_categoricals)
@@ -122,7 +123,7 @@ def main():
 
   preprocess(pipe, X_train)
   set_xgb_model(pipe, xgb_params)
-  pipe.set_time_folds(5)
+  pipe.set_time_folds(10)
   pipe.preprocess()
   pipe.train(verbose=True)
   pipe.predict()

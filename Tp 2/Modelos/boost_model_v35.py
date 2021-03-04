@@ -3,14 +3,14 @@ from pipeline.my_pipe import MyPipeline
 from util_functions import *
 
 xgb_params = {
-    "max_depth":7,
+    "max_depth":8,
     "learning_rate":0.15,
-    "n_estimators":70,
+    "n_estimators":80,
     "objective":'binary:logistic',
     "booster":'gbtree',
     "n_jobs":4,
     "nthread":None,
-    "gamma":0,
+    "gamma":0.4,
     "min_child_weight":1,
     "max_delta_step":0,
     "subsample":1,
@@ -62,9 +62,9 @@ columns_removed = [
     "Opportunity_ID"
   ]
 
-columns_to_label = [
-  "Quote_Type",
-]
+#columns_to_label = [
+#  "Quote_Type",
+#]
 
 columns_to_one_hot = [
     "Region",
@@ -90,7 +90,7 @@ def preprocess(pipe, X):
 
   # Apply data filling
   impute_all(pipe, X, set(columns_filtered))
-  pipe.apply_labeling(columns_to_label)
+  #pipe.apply_labeling(columns_to_label)
   pipe.apply_one_hot(columns_to_one_hot)
 
   # Apply various functions
@@ -99,10 +99,11 @@ def preprocess(pipe, X):
   #pipe.apply_function(delete_anomalous_registers)
   pipe.apply_function(insert_negotiation_length)
   pipe.apply_function(insert_client_age)
+  pipe.apply_function(binary_quote_type)
   #pipe.apply_function(insert_trf_zero)
   pipe.apply_function(preprocess_amounts_blocks)
   pipe.apply_function(preprocess_delivery_dates)
-  pipe.apply_function(sort_by_dates)
+  #pipe.apply_function(sort_by_dates)
   pipe.apply_function(unify_coins)
   pipe.apply_function(groupby_opp_id)
   pipe.apply_function(drop_categoricals)
@@ -122,13 +123,13 @@ def main():
 
   preprocess(pipe, X_train)
   set_xgb_model(pipe, xgb_params)
-  pipe.set_time_folds(5)
+  pipe.set_folds(8)
   pipe.preprocess()
-  pipe.train(verbose=True)
+  pipe.train_xgb(verbose=True)
   pipe.predict()
-  pipe.score(verbose=True)
-  pipe.output()
-  pipe.submit()
+  pipe.score_xgb(verbose=True)
+  #pipe.output()
+  #pipe.submit()
   print("TODO OK")
 
 main()

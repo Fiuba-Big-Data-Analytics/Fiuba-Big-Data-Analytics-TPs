@@ -224,6 +224,10 @@ def binary_columns(X):
   X["Currency"] = X["Currency"].apply(lambda v: 1 if v=="None" else 0)
   return X
 
+def binary_quote_type(X):
+  X["Quote_Type"] = X["Quote_Type"].apply(lambda v: 1 if v=="Non Binding" else 0)
+  return X
+
 """
 def group_categoric_registers_train(X):
   columns_to_group = [
@@ -267,6 +271,10 @@ def group_registers(X):
   X["Account_Owner"] = X["Account_Owner"].apply(lambda v: "Person_Name_Other" if v not in acc_own_cats else v)
 
   X["TRF"] = X["TRF"].apply(lambda v: "Other" if v > 1 else str(v))
+
+  # Not version 33
+  opp_type_cats = {"Opportunity_Type_1", "Opportunity_Type_7", "Opportunity_Type_19", "Opportunity_Type_8"}
+  X["Opportunity_Type"] = X["Opportunity_Type"].apply(lambda v: "Opportunity_Type_Other" if v not in opp_type_cats else v)
 
   return X
 

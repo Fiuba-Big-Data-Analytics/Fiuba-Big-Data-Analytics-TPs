@@ -22,26 +22,31 @@ def substract_columns(X, columnA, columnB):
   X[f"sub_{columnA}_{columnB}"] = X[columnA] - X[columnB]
   return X
   
-def impute_columns(X, columns, strategy, fill_value=None):
-  imputer = SimpleImputer(strategy=strategy, fill_value=fill_value)
-  imputed = pd.DataFrame(imputer.fit_transform(X[columns]))
+def impute_columns(X, columns, imputer):
+  imputed = None
+  if "Stage" in X.columns:
+    imputed = pd.DataFrame(imputer.fit_transform(X[columns]))
+  else: 
+    imputed = pd.DataFrame(imputer.transform(X[columns]))
   imputed.columns = columns
   imputed.index = X.index
   dropped_X = X.drop(columns, axis=1)
   X = pd.concat([imputed,dropped_X], axis=1)
   return X
 
-def one_hot_columns(X, columns):
-  onehotter = OneHotEncoder(handle_unknown="ignore", sparse=False)
-  onehotted = pd.DataFrame(onehotter.fit_transform(X[columns]))
+def one_hot_columns(X, columns, onehotter):
+  onehotted = None
+  if "Stage" in X.columns:
+    onehotted = pd.DataFrame(onehotter.fit_transform(X[columns]))
+  else:
+    onehotted = pd.DataFrame(onehotter.transform(X[columns]))
   onehotted.index = X.index
   onehotted.columns = onehotter.get_feature_names()
   dropped_X = X.drop(columns, axis=1)
   X = pd.concat([dropped_X,onehotted], axis=1)
   return X
 
-def label_columns(X, columns):
-  labeler = LabelEncoder()
+def label_columns(X_train, X_test, columns, labeler):
   for col in columns:
     X[col] = labeler.fit_transform(X[col])
   return X
@@ -192,14 +197,16 @@ class MyPipeline:
       self.X_test = to_date(self.X_test, col)
 
     for cols, strat in self.columns_to_impute.items():
-      self.X_train = impute_columns(self.X_train, list(cols), strat[0], strat[1])
-      self.X_test = impute_columns(self.X_test, list(cols), strat[0], strat[1])
+      imputer = SimpleImputer(strategy=strat[0], fill_value=strat[1])
+      self.X_train = impute_columns(self.X_train, list(cols), imputer)
+      self.X_test = impute_columns(self.X_test, list(cols), imputer)
               
-    self.X_train = label_columns(self.X_train, self.columns_to_label)
-    self.X_test = label_columns(self.X_test, self.columns_to_label)
+    #self.X_train = label_columns(self.X_train, self.columns_to_label)
+    #self.X_test = label_columns(self.X_test, self.columns_to_label)
 
-    self.X_train = one_hot_columns(self.X_train, self.columns_to_one_hot)
-    self.X_test = one_hot_columns(self.X_test, self.columns_to_one_hot)
+    onehotter = OneHotEncoder(handle_unknown="ignore", sparse=False)
+    self.X_train = one_hot_columns(self.X_train, self.columns_to_one_hot, onehotter)
+    self.X_test = one_hot_columns(self.X_test, self.columns_to_one_hot, onehotter)
 
     for function in self.functions_to_apply:
       self.X_train = function(self.X_train)
@@ -208,8 +215,8 @@ class MyPipeline:
     self.X_train = drop_columns(self.X_train, self.columns_to_remove)
     self.X_test = drop_columns(self.X_test, self.columns_to_remove)
 
-    self.X_train.to_csv("train_pre.csv")
-    self.X_test.to_csv("test_pre.csv")
+    self.X_train.to_csv("train_pre.csv", index=False)
+    self.X_test.to_csv("test_pre.csv", index=False)
 
     self.X_train.reset_index(drop=True, inplace=True)
     self.X_test.reset_index(drop=True, inplace=True)
@@ -233,6 +240,9 @@ class MyPipeline:
     self.y_train = self.X_train[self.target]
     self.X_train = self.X_train.drop(self.target, axis=1)
 
+    ids = self.X_train["Opportunity_ID"]
+    self.X_train = self.X_train.drop("Opportunity_ID", axis=1)
+
     valid_size = int(len(self.X_train.index) * 0.20)
     self.X_valid = self.X_train.tail(valid_size)
     self.X_train = self.X_train.drop(self.X_train.tail(valid_size).index)
@@ -243,22 +253,32 @@ class MyPipeline:
     if verbose: print("Fitting... 0%")
     self.model = self.model.fit(
       self.X_train, self.y_train,
-      early_stopping_rounds=3,
+      early_stopping_rounds=10,
       eval_set=[(self.X_valid, self.y_valid)],
       verbose=verbose
     )
     if verbose: 
       print(f"Score: {self.model.best_score} --- Iter: {self.model.best_iteration} --- ntree-limit: {self.model.best_ntree_limit}")
 
+    self.X_train["Opportunity_ID"] = ids
+
   """ Generate the prediction."""
   def predict(self):
+    ids = self.X_test["Opportunity_ID"]
+    self.X_test = self.X_test.drop("Opportunity_ID", axis=1)
     self.prediction = self.model.predict_proba(self.X_test)
 
+    #print(self.prediction)
+    #print(self.model.classes_)
+    self.X_test["Opportunity_ID"] = ids
 
   """ Score the model."""
   def score(self, verbose=False):
-    if self.folds == 1:
+    if self.folds == 1:      
+      ids = self.X_train["Opportunity_ID"]
+      self.X_train = self.X_train.drop("Opportunity_ID", axis=1)
       prediction = self.model.predict_proba(self.X_train)
+      self.X_train["Opportunity_ID"] = ids
       self.error = log_loss(self.y_train, prediction)
     else:
       self.X_train.reset_index(drop=True, inplace=True)
@@ -269,11 +289,10 @@ class MyPipeline:
         y_train = self.y_train.loc[train_index]
         X_test = self.X_train.loc[test_index,:]
         y_test = self.y_train.loc[test_index]
-        #ids = X_train["Opportunity_ID"]
-        #X_train = X_train.drop("Opportunity_ID", axis=1)
+        X_train = X_train.drop("Opportunity_ID", axis=1)
+        X_test = X_test.drop("Opportunity_ID", axis=1)
         self.model.fit(X_train,y_train)
-        #X_train["Opportunity_ID"] = ids
-        
+
         prediction = self.model.predict_proba(X_test)
         try:
           errors.append(log_loss(y_test, prediction))
@@ -335,5 +354,6 @@ class MyPipeline:
     df = pd.DataFrame(columns=["Opportunity_ID", "Target"])
     df["Opportunity_ID"] = self.X_test["Opportunity_ID"].astype(np.int64)
     df["Target"] = self.prediction
+    df["Target"] = df["Target"].apply(lambda proba: 1 - proba)
     df = df.sort_values(by=["Opportunity_ID"])
     df.to_csv(submit_file_name, index=False)
